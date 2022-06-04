@@ -1,0 +1,69 @@
+[package]
+name = "rustzx-esp32"
+version = "0.2.0"
+authors = ["Kirill Mikhailov <kirill.mikhailov@espressif.com>"]
+edition = "2018"
+categories = ["embedded", "hardware-support"]
+keywords = ["embedded", "idf", "esp-idf", "esp32", "zx"]
+description = "Emulation of Spectrum ZX on the ESP32"
+repository = "https://github.com/georgik/rustzx-esp32"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+
+[profile.dev]
+# symbols are nice and they don't increase the size on Flash
+debug = true
+opt-level = "z"
+
+#[profile.release]
+#opt-level = "s"
+
+[features]
+default = [ "esp32c3_ili9341" ]
+
+# Enable this feature in case you have a ESP32 ILI9341 board
+esp32_ili9341 = []
+
+# Enable this feature in case you have a ESP32C3 ILI9341 board
+esp32c3_ili9341 = []
+
+# Enable this feature in case you have a Kaluga ILI9341 board
+kaluga_ili9341 = []
+
+# Enable this feature in case you have a Kaluga ST7789 board
+kaluga_st7789 = []
+
+# Enable this feature in case you have a TTGO board
+ttgo = []
+
+# Enable this feature in case you have a Heltec board
+heltec = []
+
+# Enable this feature in case you have an ESP32S2-USB-OTG preview board
+esp32s2_usb_otg = []
+
+# Enable this feature in case you have an ESP32S3-USB-OTG board
+esp32s3_usb_otg = []
+
+[dependencies]
+anyhow = {version = "1", features = ["backtrace"]}
+log = "0.4"
+esp-idf-sys = { version = "0.31.0", features = ["binstart"] }
+esp-idf-svc = "0.39.1"
+esp-idf-hal = "0.35.1"
+embedded-svc = "0.19"
+embedded-hal = "0.2"
+embedded-graphics = "0.7"
+embedded-text = "0.5.0"
+display-interface = "0.4"
+display-interface-spi = "0.4"
+st7789 = "0.6"
+ili9341 = { version = "0.5", git = "https://github.com/yuri91/ili9341-rs" }
+ssd1306 = "0.7"
+rustzx-utils = { version = "0.15", features = ["std"] }
+rustzx-core = { version = "0.15", features = ["embedded-roms"] }
+time = { version = "0.3.9", features = ["macros", "parsing"]}
+
+[build-dependencies]
+embuild = "0.28.5"
+anyhow = "1.0.50"
