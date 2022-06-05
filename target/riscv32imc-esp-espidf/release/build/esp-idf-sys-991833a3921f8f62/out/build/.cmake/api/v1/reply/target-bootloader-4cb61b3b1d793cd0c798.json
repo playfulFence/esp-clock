@@ -1,0 +1,179 @@
+{
+	"backtrace" : 6,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"externalproject_add",
+			"include",
+			"__build_process_project_includes",
+			"idf_build_process",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"/Users/playfulfence/.espressif/tools/cmake/3.20.3/CMake.app/Contents/share/cmake-3.20/Modules/ExternalProject.cmake",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/project_include.cmake",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/tools/cmake/build.cmake",
+			"CMakeLists.txt",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 3,
+				"line" : 6,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 534,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 325,
+				"parent" : 2
+			},
+			{
+				"file" : 1,
+				"parent" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 114,
+				"parent" : 4
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 3497,
+				"parent" : 5
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 4,
+				"line" : 8,
+				"parent" : 7
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 8,
+			"id" : "partition_table_bin::@8e7a60ee4fe55e1aaabf"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "ExternalProjectTargets/bootloader"
+	},
+	"id" : "bootloader::@6890427a1f51a3e7e1df",
+	"name" : "bootloader",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 6,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/bootloader",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/bootloader.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/bootloader-complete.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,14 @@
+{
+  "esp_idf_dir": "/Users/playfulfence/.espressif/esp-idf/release-v4.4",
+  "exported_path_var": "/Users/playfulfence/.espressif/tools/xtensa-esp32s3-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32s3-elf/bin:/Users/playfulfence/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch3-8.4.0/riscv32-esp-elf/bin:/Users/playfulfence/.espressif/tools/esp32ulp-elf/2.28.51-esp-20191205/esp32ulp-elf-binutils/bin:/Users/playfulfence/.espressif/tools/cmake/3.20.3/CMake.app/Contents/bin:/Users/playfulfence/.espressif/tools/xtensa-esp32s2-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32s2-elf/bin:/Users/playfulfence/.espressif/tools/openocd-esp32/v0.11.0-esp32-20220411/openocd-esp32/bin:/Users/playfulfence/.espressif/python_env/idf4.4_py3.8_env/bin:/Users/playfulfence/.espressif/esp-idf/release-v4.4/tools:/Users/playfulfence/.espressif/tools/esp32s2ulp-elf/2.28.51-esp-20191205/esp32s2ulp-elf-binutils/bin:/Users/playfulfence/.espressif/tools/ninja/1.10.2/:/Users/playfulfence/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin:/Users/playfulfence/.cargo/bin:/Users/playfulfence/.cargo/bin:/Users/playfulfence/.cargo/bin/:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/playfulfence/.cargo/bin/:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/playfulfence/.cargo/bin",
+  "venv_python": "/Users/playfulfence/.espressif/python_env/idf4.4_py3.8_env/bin/python",
+  "build_dir": "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-6f63b1a687cf1354/out/build",
+  "project_dir": "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-6f63b1a687cf1354/out",
+  "compiler": "/Users/playfulfence/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch3-8.4.0/riscv32-esp-elf/bin/riscv32-esp-elf-gcc",
+  "mcu": "esp32c3",
+  "sdkconfig": null,
+  "sdkconfig_defaults": [
+    "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-6f63b1a687cf1354/out/gen-sdkconfig.defaults",
+    "/Users/playfulfence/esp/esp-clock/sdkconfig.defaults"
+  ]
+}

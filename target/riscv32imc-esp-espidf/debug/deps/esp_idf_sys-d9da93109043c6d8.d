@@ -1,0 +1,14 @@
+/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/deps/esp_idf_sys-d9da93109043c6d8.rmeta: /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/lib.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/alloc.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/error.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/panic.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches/lstat.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/start.rs /Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/build/esp-idf-sys-70fc8cfb39cfd999/out/bindings.rs
+
+/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/deps/esp_idf_sys-d9da93109043c6d8.d: /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/lib.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/alloc.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/error.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/panic.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches/lstat.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/start.rs /Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/build/esp-idf-sys-70fc8cfb39cfd999/out/bindings.rs
+
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/lib.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/alloc.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/error.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/panic.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/patches/lstat.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/esp-idf-sys-0.31.5/src/start.rs:
+/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/build/esp-idf-sys-70fc8cfb39cfd999/out/bindings.rs:
+
+# env-dep:EMBUILD_GENERATED_BINDINGS_FILE=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/build/esp-idf-sys-70fc8cfb39cfd999/out/bindings.rs

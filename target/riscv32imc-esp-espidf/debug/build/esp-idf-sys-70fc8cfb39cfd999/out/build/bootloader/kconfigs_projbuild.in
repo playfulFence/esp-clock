@@ -1,0 +1,4 @@
+source "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/Kconfig.projbuild"
+source "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/Kconfig.projbuild"
+source "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esptool_py/Kconfig.projbuild"
+source "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/partition_table/Kconfig.projbuild"

@@ -1,0 +1,21 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/subproject",
+    "build_dir":          "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/build/bootloader",
+    "config_file":        "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/sdkconfig",
+    "config_defaults":    "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/gen-sdkconfig.defaults;/Users/playfulfence/esp/esp-clock/sdkconfig.defaults",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "692c1a6",
+    "target":             "esp32c3",
+    "rev":                "",
+    "phy_data_partition": "",
+    "monitor_baud" :      "115200",
+    "monitor_toolprefix": "riscv32-esp-elf-",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp32c3/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_common/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/log/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/newlib/Kconfig;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/Kconfig.projbuild;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/Kconfig.projbuild;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esptool_py/Kconfig.projbuild;/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/partition_table/Kconfig.projbuild"
+    },
+    "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp32c3", "esp_common", "esp_hw_support", "esp_rom", "esp_system", "esptool_py", "freertos", "hal", "log", "main", "micro-ecc", "newlib", "partition_table", "riscv", "soc", "spi_flash", "" ],
+    "build_component_paths" : [ "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader_support", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp32c3", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_common", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esptool_py", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/log", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/subproject/main", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader/subproject/components/micro-ecc", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/newlib", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/partition_table", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/riscv", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc", "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/spi_flash", "" ]
+}

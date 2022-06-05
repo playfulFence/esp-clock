@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/typenum-acf077cfaec98d59/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/typenum-acf077cfaec98d59/out/op.rs

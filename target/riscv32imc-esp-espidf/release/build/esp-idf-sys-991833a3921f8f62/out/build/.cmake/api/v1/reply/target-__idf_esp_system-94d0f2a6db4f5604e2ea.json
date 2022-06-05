@@ -1,0 +1,1564 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "esp-idf/esp_system/libesp_system.a"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"idf_component_register",
+			"add_compile_options",
+			"set_property",
+			"__component_set_dependencies",
+			"__component_set_all_dependencies",
+			"include_directories",
+			"target_include_directories",
+			"__component_add_include_dirs",
+			"add_c_compile_options",
+			"add_subdirectory"
+		],
+		"files" : 
+		[
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/tools/cmake/component.cmake",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/CMakeLists.txt",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/CMakeLists.txt",
+			"/Users/playfulfence/.espressif/esp-idf/release-v4.4/tools/cmake/utilities.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 470,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 449,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 459,
+				"parent" : 1
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 504,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 345,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 448,
+				"parent" : 1
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 472,
+				"parent" : 1
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 303,
+				"parent" : 9
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 7,
+				"parent" : 11
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 8,
+				"parent" : 11
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 324,
+				"parent" : 6
+			},
+			{
+				"command" : 9,
+				"file" : 0,
+				"line" : 450,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 282,
+				"parent" : 19
+			},
+			{
+				"command" : 10,
+				"file" : 1,
+				"line" : 41,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=rv32imc -ffunction-sections -fdata-sections -march=rv32imc -mabi=ilp32 -mcmodel=medany"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Werror=all"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-function"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=deprecated-declarations"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-unused-parameter"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-sign-compare"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ggdb"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=format="
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-nostartfiles"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-format"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-O2"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out=."
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/.espressif/esp-idf/release-v4.4=IDF"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fstrict-volatile-bitfields"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-but-set-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-jump-tables"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-tree-switch-conversion"
+				},
+				{
+					"backtrace" : 20,
+					"fragment" : "-std=gnu99"
+				},
+				{
+					"backtrace" : 20,
+					"fragment" : "-Wno-old-style-declaration"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_GNU_SOURCE"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DIDF_VER=\\\"692c1a6\\\""
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DESP_PLATFORM"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_POSIX_READER_WRITER_LOCKS"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "MBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
+					"path" : "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/build/config"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/."
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include/riscv"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/public_compat"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/newlib/platform_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions/freertos"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/port/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/private_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/heap/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/log/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps/sntp"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include/arch"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/platform_port/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_common/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_pm/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ringbuf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/vfs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_wifi/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_event/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_netif/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_eth/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/tcpip_adapter/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ipc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_trace/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_timer/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/spi_flash/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_update/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader_support/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/nvs_flash/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/port/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/mbedtls/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/esp_crt_bundle/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/pthread/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/riscv"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/esp32c3"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include/port/riscv"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				7,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				23,
+				24
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=rv32imc -ffunction-sections -fdata-sections -march=rv32imc -mabi=ilp32 -mcmodel=medany"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Werror=all"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-function"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=deprecated-declarations"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-unused-parameter"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-sign-compare"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ggdb"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=format="
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-nostartfiles"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-format"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-O2"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out=."
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/.espressif/esp-idf/release-v4.4=IDF"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fstrict-volatile-bitfields"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-but-set-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-jump-tables"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-tree-switch-conversion"
+				},
+				{
+					"backtrace" : 20,
+					"fragment" : "-std=gnu99"
+				},
+				{
+					"backtrace" : 20,
+					"fragment" : "-Wno-old-style-declaration"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_GNU_SOURCE"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DIDF_VER=\\\"692c1a6\\\""
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DESP_PLATFORM"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_POSIX_READER_WRITER_LOCKS"
+				},
+				{
+					"fragment" : "-fno-stack-protector"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "MBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
+					"path" : "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/build/config"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/."
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include/riscv"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/public_compat"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/newlib/platform_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions/freertos"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/port/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/private_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/heap/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/log/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps/sntp"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include/arch"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/platform_port/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_common/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_pm/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ringbuf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/vfs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_wifi/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_event/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_netif/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_eth/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/tcpip_adapter/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ipc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_trace/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_timer/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/spi_flash/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_update/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader_support/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/nvs_flash/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/port/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/mbedtls/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/esp_crt_bundle/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/pthread/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/riscv"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/esp32c3"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include/port/riscv"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				6,
+				8
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "  -ffunction-sections -fdata-sections -march=rv32imc -mabi=ilp32 -mcmodel=medany"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Werror=all"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-function"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=deprecated-declarations"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-unused-parameter"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-sign-compare"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ggdb"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=format="
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-nostartfiles"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-format"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-O2"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out=."
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fmacro-prefix-map=/Users/playfulfence/.espressif/esp-idf/release-v4.4=IDF"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fstrict-volatile-bitfields"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-error=unused-but-set-variable"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-jump-tables"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-tree-switch-conversion"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_GNU_SOURCE"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DIDF_VER=\\\"692c1a6\\\""
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-DESP_PLATFORM"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-D_POSIX_READER_WRITER_LOCKS"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "MBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
+					"path" : "/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-991833a3921f8f62/out/build/config"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/."
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/include/riscv"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/public_compat"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/newlib/platform_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions/freertos"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/port/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/freertos/include/esp_additions"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/include/soc/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_hw_support/port/esp32c3/private_include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/heap/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/log/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/include/apps/sntp"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/lwip/port/esp32/include/arch"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/."
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/soc/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/hal/platform_port/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/include/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_rom/esp32c3"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_common/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/riscv/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/driver/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_pm/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ringbuf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/efuse/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/vfs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_wifi/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_event/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_netif/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_eth/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/tcpip_adapter/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_phy/esp32c3/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_ipc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_trace/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_timer/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/spi_flash/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/app_update/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/bootloader_support/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/nvs_flash/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/port/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/mbedtls/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/mbedtls/esp_crt_bundle/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/pthread/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/riscv"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_gdbstub/esp32c3"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/espcoredump/include/port/riscv"
+				}
+			],
+			"language" : "ASM",
+			"sourceIndexes" : 
+			[
+				22
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"id" : "__idf_esp_rom::@c269e361cd87ad81e927"
+		}
+	],
+	"id" : "__idf_esp_system::@874df54e61e20112dfd4",
+	"name" : "__idf_esp_system",
+	"nameOnDisk" : "libesp_system.a",
+	"paths" : 
+	{
+		"build" : "esp-idf/esp_system",
+		"source" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				23,
+				24
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				22
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/esp_err.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/crosscore_int.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/freertos_hooks.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/int_wdt.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/panic.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/esp_system.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/startup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/system_time.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/stack_check.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/task_wdt.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/ubsan.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/xt_wdt.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/debug_stubs.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/cpu_start.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/panic_handler.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/brownout.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc/esp32c3/clk.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc/esp32c3/reset_reason.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc/esp32c3/system_internal.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc/esp32c3/cache_err_int.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/soc/esp32c3/apb_backup_dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/arch/riscv/expression_with_stack.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 2,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/arch/riscv/expression_with_stack_asm.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/arch/riscv/panic_arch.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 21,
+			"compileGroupIndex" : 0,
+			"path" : "/Users/playfulfence/.espressif/esp-idf/release-v4.4/components/esp_system/port/arch/riscv/debug_stubs.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

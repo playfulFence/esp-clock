@@ -1,0 +1,10 @@
+/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/deps/rustzx_utils-13303bcaf3937da3.rmeta: /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/lib.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/palette.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/stopwatch.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/mod.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/file.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/gzip.rs
+
+/Users/playfulfence/esp/esp-clock/target/riscv32imc-esp-espidf/debug/deps/rustzx_utils-13303bcaf3937da3.d: /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/lib.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/palette.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/stopwatch.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/mod.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/file.rs /Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/gzip.rs
+
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/lib.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/palette.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/stopwatch.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/mod.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/file.rs:
+/Users/playfulfence/.cargo/registry/src/github.com-1ecc6299db9ec823/rustzx-utils-0.15.0/src/io/gzip.rs:
