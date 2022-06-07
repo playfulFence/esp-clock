@@ -7,6 +7,7 @@ use std::result::Result::Ok;
 
 use time::OffsetDateTime;
 use time::macros::offset;
+use time::Date;
 
 use anyhow::*;
 use log::*;
@@ -43,6 +44,11 @@ use rustzx_core::zx::video::colors::ZXColor;
 mod display;
 mod host;
 
+const textStyle : TextStyle = TextStyleBuilder::new()
+    .alignment(embedded_graphics::text::Alignment::Center)
+    .baseline(embedded_graphics::text::Baseline::Middle)
+    .build();
+
 
 
 fn main() -> Result<()> 
@@ -67,9 +73,9 @@ fn main() -> Result<()>
     unsafe{
 
         let mut tmInit : esp_idf_sys::tm = esp_idf_sys::tm{
-            tm_sec: 30 as esp_idf_sys::c_types::c_int,
-            tm_min: 12 as esp_idf_sys::c_types::c_int, 
-            tm_hour: 3 as esp_idf_sys::c_types::c_int, 
+            tm_sec: 50 as esp_idf_sys::c_types::c_int,
+            tm_min: 59 as esp_idf_sys::c_types::c_int, 
+            tm_hour: 21 as esp_idf_sys::c_types::c_int, 
             tm_mday: 15 as esp_idf_sys::c_types::c_int, 
             tm_mon: 6 as esp_idf_sys::c_types::c_int,
             tm_year: (2022  - 1900) as esp_idf_sys::c_types::c_int,
@@ -81,9 +87,29 @@ fn main() -> Result<()>
         let tmRef: &mut esp_idf_sys::tm = &mut tmInit;
 
         let time : esp_idf_sys::time_t = esp_idf_sys::mktime(tmRef);
+        
+        let mut actualDate = OffsetDateTime::from_unix_timestamp(time as i64)?
+                            .to_offset(offset!(+2))
+                            .date();
+
+        let mut dateStr = format!("{}-{}-{}", actualDate.to_calendar_date().2, 
+                                              actualDate.to_calendar_date().1,
+                                              actualDate.to_calendar_date().0);
+        
 
         let mut now: u64 = 0;
         let mut timeBuf: u64 = 0; 
+
+        dateFlush(
+            &mut dp,
+            &dateStr,
+            display::color_conv);
+        
+        weekdayFlush(
+            &mut dp, 
+            &actualDate.weekday().to_string(),
+            display::color_conv);
+
         loop
         {
             if (EspSystemTime{}.now().as_secs() as u64 != timeBuf) {
@@ -92,15 +118,33 @@ fn main() -> Result<()>
 
                 info!("About to convert {} UNIX-timestamp to date-time fmt...", now);
 
-                let mut toOutput = OffsetDateTime::from_unix_timestamp(now as i64)?
-                                    .to_offset(offset!(+2))
-                                    .time()
-                                    .to_string();
-
+                let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?
+                                    .to_offset(offset!(+2));
+                                    // .time()
+                                    // .to_string();
                 timeFlush(
                     &mut dp, 
-                    &toOutput[0..(toOutput.len() - 2)].to_string(),
+                    &rawTime.time().to_string()[0..(rawTime.time().to_string().len() - 2)].to_string(),
                     display::color_conv);
+
+
+                if actualDate != rawTime.date() {
+                    actualDate = rawTime.date();
+                    dateStr = format!("{}-{}-{}", actualDate.to_calendar_date().2,
+                                                  actualDate.to_calendar_date().1, 
+                                                  actualDate.to_calendar_date().0);
+                    dateFlush(
+                        &mut dp,
+                        &dateStr,
+                        display::color_conv);
+
+                    weekdayFlush(
+                        &mut dp,
+                        &actualDate.weekday().to_string(),
+                        display::color_conv);
+                    
+                }
+                
             } else {
                 continue;
             }
@@ -116,12 +160,9 @@ fn main() -> Result<()>
 fn timeFlush<D>(display: &mut D, toPrint: &String, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
 where
     D: DrawTarget + Dimensions,
-    //D::Color: From<Rgb888>,
 {
 
-    Rectangle::new(Point::new(
-        display.bounding_box().size.width as i32 / 4 ,
-        display.bounding_box().size.height as i32 / 3), Size::new(120, 40))
+    Rectangle::with_center(display.bounding_box().center(), Size::new(120, 40))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
@@ -129,43 +170,28 @@ where
                 .stroke_width(1)
                 .build(),
         )
-        .draw(display);
+    .draw(display);
 
     // TextBox::with_textbox_style(
     //     &toPrint,
-    //     Rectangle::new(Point::new
-    //         display.bounding_box().size.width as i32 / 4 ,
-    //         display.bounding_box().size.height as i32 / 3 ), Size::new(160, 60)),
+    //     Rectangle::with_center(display.bounding_box().center(), Size::new(120, 40)),
     //         MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
     //         TextBoxStyleBuilder::new()
     //             .height_mode(HeightMode::FitToText)
-    //             .alignment(HorizontalAlignment::Justified)
+    //             .alignment(HorizontalAlignment::Center)
+    //             .vertical_alignment(VerticalAlignment::Middle)
     //             .paragraph_spacing(6)
     //             .build(),
     // )
     // .draw(display);
-    
-    
-   
-    Rectangle::new(Point::new(
-        display.bounding_box().size.width as i32 / 4 ,
-        display.bounding_box().size.height as i32 / 3 ), Size::new(160, 60))
-        .into_styled(
-            TextBoxStyleBuilder::new()
-                .height_mode(HeightMode::FitToText)
-                .alignment(HorizontalAlignment::Justified)
-                .paragraph_spacing(1)
-                .build(),
-);
 
 
-    Text::with_alignment(
+
+    Text::with_text_style(
         &toPrint,
-        Point::new(
-            display.bounding_box().size.width as i32 / 3,
-            display.bounding_box().size.height as i32 / 2 ), //(display.bounding_box().size.height - 10) as i32 / 2),
+        display.bounding_box().center(), //(display.bounding_box().size.height - 10) as i32 / 2),
         MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
-        Alignment::Left,
+        textStyle,
     )
     .draw(display);
 
@@ -178,33 +204,54 @@ where
 fn dateFlush<D>(display: &mut D, toPrint: &String, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
 where
     D: DrawTarget + Dimensions,
-    //D::Color: From<Rgb565>,
 {
-    //display.clear(color_conv(ZXColor::White, ZXBrightness::Normal));
+    
+    Rectangle::new(Point::zero(), Size::new(130, 30))
+        .into_styled(
+            PrimitiveStyleBuilder::new()
+                .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))       /* for date in top-left of screen*/
+                .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+                .stroke_width(1)
+                .build(),
+        )
+    .draw(display);
 
-    Rectangle::new(Point::zero(), Size::new(50, 20))
+
+    Text::with_alignment(
+        &toPrint,
+        Point::new(5,20), //(display.bounding_box().size.height - 10) as i32 / 2),
+        MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+        Alignment::Left)
+    .draw(display);
+
+    info!("LED rendering done");
+
+    Ok(())
+} 
+
+
+
+fn weekdayFlush<D>(display: &mut D, toPrint: &String, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
+where
+    D: DrawTarget + Dimensions,
+{
+    
+    Rectangle::with_center(display.bounding_box().center() - Size::new(0, 30), Size::new(120, 20))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
                 .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
-                .stroke_width(4)
+                .stroke_width(1)
                 .build(),
         )
         .draw(display);
 
-    Rectangle::new(Point::zero(), display.bounding_box().size).into_styled(
-        TextBoxStyleBuilder::new()
-            .height_mode(HeightMode::FitToText)
-            .alignment(HorizontalAlignment::Left)
-            .paragraph_spacing(1)
-            .build(),
-    );
 
-    Text::with_alignment(
+    Text::with_text_style(
         &toPrint,
-        Point::new(60,90), //(display.bounding_box().size.height - 10) as i32 / 2),
+        display.bounding_box().center() - Size::new(0, 30), //(display.bounding_box().size.height - 10) as i32 / 2),
         MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
-        Alignment::Left,
+        textStyle,
     )
     .draw(display);
 
