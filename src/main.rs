@@ -53,6 +53,11 @@ const textStyle : TextStyle = TextStyleBuilder::new()
 
 fn main() -> Result<()> 
 {
+    // unsafe{
+    //     esp_idf_sys::esp_wifi_set_mode(esp_idf_sys::wifi_mode_t_WIFI_MODE_STA);
+    //     esp_idf_sys::esp_wifi_stop();
+    // }
+
     esp_idf_sys::link_patches();
 
     // Bind the log crate to the ESP Logging facilities
