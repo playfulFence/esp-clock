@@ -53,11 +53,6 @@ const textStyle : TextStyle = TextStyleBuilder::new()
 
 fn main() -> Result<()> 
 {
-    // unsafe{
-    //     esp_idf_sys::esp_wifi_set_mode(esp_idf_sys::wifi_mode_t_WIFI_MODE_STA);
-    //     esp_idf_sys::esp_wifi_stop();
-    // }
-
     esp_idf_sys::link_patches();
 
     // Bind the log crate to the ESP Logging facilities
@@ -73,19 +68,69 @@ fn main() -> Result<()>
 
     &dp.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
 
+    
+    //TBD 
+ 
+    // // Initialize the I2C bus using GPIO10 for SDA and GPIO8 for SCL, running at
+    // // 400kHz.
+    // let io = IO::new(peripherals.GPIO, peripherals.IO_MUX);
+    // let i2c = I2C::new(
+    //     peripherals.I2C0,
+    //     io.pins.gpio10,
+    //     io.pins.gpio8,
+    //     400_000,
+    //     &mut peripherals.SYSTEM,
+    // )
+    // .unwrap();
+
+    // // Create a bus manager so that we can share the I2C bus between sensor drivers
+    // // while avoiding ownership issues.
+    // let bus = BusManagerSimple::new(i2c);
+    // let mut icm = Icm42670::new(bus.acquire_i2c(), Address::Primary).unwrap();
+    // let mut sht = shtc3(bus.acquire_i2c());
+
+    // // The SHTC3 temperature/humidity sensor must be woken up prior to reading.
+    // sht.wakeup(&mut delay).unwrap();
+
+    // loop {
+    //     // Read and display normalized accelerometer and gyroscope values.
+    //     let accel_norm = icm.accel_norm().unwrap();
+    //     let gyro_norm = icm.gyro_norm().unwrap();
+
+    //     print!(
+    //         "ACCEL = X: {:+.04} Y: {:+.04} Z: {:+.04}\t",
+    //         accel_norm.x, accel_norm.y, accel_norm.z
+    //     );
+    //     print!(
+    //         "GYRO  = X: {:+.04} Y: {:+.04} Z: {:+.04}\t",
+    //         gyro_norm.x, gyro_norm.y, gyro_norm.z
+    //     );
+
+    //     // Read and display temperature and relative humidity values.
+    //     let measurement = sht.measure(PowerMode::NormalMode, &mut delay).unwrap();
+
+    //     print!(
+    //         "TEMP  = {:+.2} °C\t",
+    //         measurement.temperature.as_degrees_celsius()
+    //     );
+    //     println!("RH   = {:+.2} %RH", measurement.humidity.as_percent());
+
+    //     delay.delay_ms(250u32);
+    // }
+
 
 
     unsafe{
 
         let mut tmInit : esp_idf_sys::tm = esp_idf_sys::tm{
-            tm_sec: 50 as esp_idf_sys::c_types::c_int,
-            tm_min: 59 as esp_idf_sys::c_types::c_int, 
-            tm_hour: 21 as esp_idf_sys::c_types::c_int, 
-            tm_mday: 15 as esp_idf_sys::c_types::c_int, 
-            tm_mon: 6 as esp_idf_sys::c_types::c_int,
+            tm_sec: 30 as esp_idf_sys::c_types::c_int,
+            tm_min: 42 as esp_idf_sys::c_types::c_int, 
+            tm_hour: 14 as esp_idf_sys::c_types::c_int, 
+            tm_mday: 10 as esp_idf_sys::c_types::c_int, 
+            tm_mon: 5 as esp_idf_sys::c_types::c_int,  // starts with 0 
             tm_year: (2022  - 1900) as esp_idf_sys::c_types::c_int,
-            tm_wday: 5 as esp_idf_sys::c_types::c_int,
-            tm_yday: 165 as esp_idf_sys::c_types::c_int,
+            tm_wday: 4 as esp_idf_sys::c_types::c_int,
+            tm_yday: 161 as esp_idf_sys::c_types::c_int,
             tm_isdst: 0 as esp_idf_sys::c_types::c_int,
         };
 
@@ -94,7 +139,6 @@ fn main() -> Result<()>
         let time : esp_idf_sys::time_t = esp_idf_sys::mktime(tmRef);
         
         let mut actualDate = OffsetDateTime::from_unix_timestamp(time as i64)?
-                            .to_offset(offset!(+2))
                             .date();
 
         let mut dateStr = format!("{}-{}-{}", actualDate.to_calendar_date().2, 
@@ -123,8 +167,8 @@ fn main() -> Result<()>
 
                 info!("About to convert {} UNIX-timestamp to date-time fmt...", now);
 
-                let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?
-                                    .to_offset(offset!(+2));
+                let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?;
+                                    //.to_offset(offset!(+2));
                                     // .time()
                                     // .to_string();
                 timeFlush(

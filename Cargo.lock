@@ -3,6 +3,15 @@
 version = 3
 
 [[package]]
+name = "accelerometer"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1a4586d95cb0695e748760c9a751141eebb68265b1b20392a0f14db608679f7a"
+dependencies = [
+ "micromath",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -282,7 +291,7 @@ dependencies = [
  "bare-metal 1.0.0",
  "cfg-if",
  "cortex-m",
- "riscv",
+ "riscv 0.7.0",
 ]
 
 [[package]]
@@ -689,6 +698,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "esp32c3"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9dcac1b9f97b99652ed00d2570e3cb5c7729858d0a70b2e2b9c999a7ca087f07"
+dependencies = [
+ "bare-metal 1.0.0",
+ "riscv 0.8.0",
+ "vcell",
+]
+
+[[package]]
 name = "fastrand"
 version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -901,6 +921,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
+name = "icm42670"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d2718b06821120ba283c373285e49239f8f8eea204708f1910d9977f697bc2f"
+dependencies = [
+ "accelerometer",
+ "embedded-hal 0.2.7",
+]
+
+[[package]]
 name = "ident_case"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1019,6 +1049,9 @@ name = "micromath"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bc4010833aea396656c2f91ee704d51a6f1329ec2ab56ffd00bfd56f7481ea94"
+dependencies = [
+ "generic-array 0.14.5",
+]
 
 [[package]]
 name = "minimal-lexical"
@@ -1033,19 +1066,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6f5c75688da582b8ffc1f1799e9db273f32133c49e048f614d22ec3256773ccc"
 dependencies = [
  "adler",
-]
-
-[[package]]
-name = "mipidsi"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c98186a3dcd69667a53fcfde689bdba1560aa695703b3cf5bfe109d1756caa8"
-dependencies = [
- "display-interface",
- "embedded-graphics-core",
- "embedded-hal 0.2.7",
- "heapless 0.7.13",
- "nb 1.0.0",
 ]
 
 [[package]]
@@ -1297,6 +1317,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "riscv"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e2856a701069e2d262b264750d382407d272d5527f7a51d3777d1805b4e2d3c"
+dependencies = [
+ "bare-metal 1.0.0",
+ "bit_field",
+ "embedded-hal 0.2.7",
+]
+
+[[package]]
 name = "riscv-target"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1333,7 +1364,7 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bfa0f585226d2e68097d4f95d113b15b83a82e819ab25717ec0590d9584ef366"
 dependencies = [
- "semver 1.0.9",
+ "semver 1.0.10",
 ]
 
 [[package]]
@@ -1371,9 +1402,10 @@ dependencies = [
  "esp-idf-hal",
  "esp-idf-svc",
  "esp-idf-sys",
+ "esp32c3",
+ "icm42670",
  "ili9341",
  "log",
- "mipidsi",
  "rustzx-core",
  "rustzx-utils",
  "ssd1306",
@@ -1430,9 +1462,9 @@ dependencies = [
 
 [[package]]
 name = "semver"
-version = "1.0.9"
+version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8cb243bdfdb5936c8dc3c45762a19d12ab4550cdc753bc247637d4ec35a040fd"
+checksum = "a41d061efea015927ac527063765e73601444cdc344ba855bc7bd44578b25e1c"
 
 [[package]]
 name = "semver-parser"

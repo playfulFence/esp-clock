@@ -63,7 +63,8 @@ ssd1306 = "0.7"
 rustzx-utils = { version = "0.15", features = ["std"] }
 rustzx-core = { version = "0.15", features = ["embedded-roms"] }
 time = { version = "0.3.9", features = ["macros", "parsing"]}
-mipidsi = "0.2.0"
+icm42670 = "0.1.0"
+esp32c3 = "0.4.0"
 
 [build-dependencies]
 embuild = "0.28.5"

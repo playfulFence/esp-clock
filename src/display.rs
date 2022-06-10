@@ -117,13 +117,13 @@ macro_rules! create {
 
         #[cfg(feature = "esp32c3_ili9341")]
         let result = display::esp32c3_create_display_ili9341(
-            $peripherals.pins.gpio4,
+            $peripherals.pins.gpio8,
+            $peripherals.pins.gpio21,
             $peripherals.pins.gpio3,
-            $peripherals.pins.gpio10,
             $peripherals.spi2,
             $peripherals.pins.gpio6,
             $peripherals.pins.gpio7,
-            $peripherals.pins.gpio2,
+            $peripherals.pins.gpio20,
         );
 
         #[cfg(feature = "kaluga_st7789")]
@@ -270,7 +270,7 @@ pub(crate) fn esp32_create_display_ili9341(
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
     let mut backlight = backlight.into_output()?;
-    backlight.set_high()?;
+    backlight.set_low()?;
 
     let di = SPIInterfaceNoCS::new(
         spi::Master::<spi::SPI2, _, _, _, _>::new(
@@ -300,13 +300,13 @@ pub(crate) fn esp32_create_display_ili9341(
 
 #[cfg(feature = "esp32c3_ili9341")]
 pub(crate) fn esp32c3_create_display_ili9341(
-    backlight: gpio::Gpio4<gpio::Unknown>,
-    dc: gpio::Gpio3<gpio::Unknown>,
-    rst: gpio::Gpio10<gpio::Unknown>,
+    backlight: gpio::Gpio8<gpio::Unknown>,
+    dc: gpio::Gpio21<gpio::Unknown>, // 
+    rst: gpio::Gpio3<gpio::Unknown>, //
     spi: spi::SPI2,
-    sclk: gpio::Gpio6<gpio::Unknown>,
-    sdo: gpio::Gpio7<gpio::Unknown>,
-    cs: gpio::Gpio2<gpio::Unknown>,
+    sclk: gpio::Gpio6<gpio::Unknown>, //
+    sdo: gpio::Gpio7<gpio::Unknown>,  //
+    cs: gpio::Gpio20<gpio::Unknown>, // -> 20
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
@@ -315,11 +315,11 @@ pub(crate) fn esp32c3_create_display_ili9341(
                 gpio::Gpio6<gpio::Output>,
                 gpio::Gpio7<gpio::Output>,
                 gpio::Gpio8<gpio::Input>,
-                gpio::Gpio2<gpio::Unknown>,
+                gpio::Gpio20<gpio::Unknown>,
             >,
-            gpio::Gpio3<gpio::Output>,
+            gpio::Gpio21<gpio::Output>,
         >,
-        gpio::Gpio10<gpio::Output>,
+        gpio::Gpio3<gpio::Output>,
     >,
 > {
     // Kaluga needs customized screen orientation commands
@@ -353,7 +353,14 @@ pub(crate) fn esp32c3_create_display_ili9341(
     info!("About to initialize the ESP32C3 ILI9341 SPI LED driver");
 
     let config = <spi::config::Config as Default>::default()
-        .baudrate(40.MHz().into());
+        .baudrate(40.MHz().into());  
+        // mb 10 ci 5
+
+
+
+        // 20 21 nejsou napojene -- try 
+
+
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
     let mut backlight = backlight.into_output()?;
@@ -661,3 +668,5 @@ pub(crate) fn color_conv(color: ZXColor, _brightness: ZXBrightness) -> BinaryCol
         _ => BinaryColor::On,
     }
 }
+
+// 0 - > 8   1 --> 10
