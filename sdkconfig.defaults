@@ -1,4 +1,4 @@
-# Rust often needs a bit of an extra main task stack size compared to C (the default is 3K)
+#Rust often needs a bit of an extra main task stack size compared to C (the default is 3K)
 CONFIG_ESP_MAIN_TASK_STACK_SIZE=7000
 
 # Use this to set FreeRTOS kernel tick frequency to 1000 Hz (100 Hz by default).
@@ -6,7 +6,6 @@ CONFIG_ESP_MAIN_TASK_STACK_SIZE=7000
 #CONFIG_FREERTOS_HZ=1000
 
 # Workaround for https://github.com/espressif/esp-idf/issues/7631
-CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=n
-CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=n
-CONFIG_ESP32_WIFI_ENABLED=n
+#CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=n
+#CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=n
 

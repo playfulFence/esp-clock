@@ -19,10 +19,16 @@ opt-level = "z"
 #opt-level = "s"
 
 [features]
-default = [ "esp32c3_ili9341" ]
+default = [ "esp32s3_ili9341" ]
 
 # Enable this feature in case you have a ESP32 ILI9341 board
 esp32_ili9341 = []
+
+# Enable this feature in case you have a ESP32 ILI9341 board
+esp32s2_ili9341 = []
+
+# Enable this feature in case you have a ESP32 ILI9341 board
+esp32s3_ili9341 = []
 
 # Enable this feature in case you have a ESP32C3 ILI9341 board
 esp32c3_ili9341 = []
@@ -64,7 +70,9 @@ rustzx-utils = { version = "0.15", features = ["std"] }
 rustzx-core = { version = "0.15", features = ["embedded-roms"] }
 time = { version = "0.3.9", features = ["macros", "parsing"]}
 icm42670 = "0.1.0"
-esp32c3 = "0.4.0"
+#esp32c3_hal = { package = "esp32c3-hal",git = "https://github.com/esp-rs/esp-hal/" }  bare-metal variant, try later...
+
+
 
 [build-dependencies]
 embuild = "0.28.5"
