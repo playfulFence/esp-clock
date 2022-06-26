@@ -153,7 +153,7 @@ macro_rules! create {
 
         #[cfg(feature = "esp32c3_ili9341")]
         let result = display::esp32c3_create_display_ili9341(
-            $peripherals.pins.gpio8,
+            $peripherals.pins.gpio0,
             $peripherals.pins.gpio21,
             $peripherals.pins.gpio3,
             $peripherals.spi2,
@@ -509,7 +509,7 @@ pub(crate) fn esp32s3_create_display_ili9341(
 
 #[cfg(feature = "esp32c3_ili9341")]
 pub(crate) fn esp32c3_create_display_ili9341(
-    backlight: gpio::Gpio8<gpio::Unknown>,
+    backlight: gpio::Gpio0<gpio::Unknown>,
     dc: gpio::Gpio21<gpio::Unknown>, // 
     rst: gpio::Gpio3<gpio::Unknown>, //
     spi: spi::SPI2,
@@ -523,7 +523,7 @@ pub(crate) fn esp32c3_create_display_ili9341(
                 spi::SPI2,
                 gpio::Gpio6<gpio::Output>,
                 gpio::Gpio7<gpio::Output>,
-                gpio::Gpio8<gpio::Input>,
+                gpio::Gpio0<gpio::Input>,
                 gpio::Gpio20<gpio::Unknown>,
             >,
             gpio::Gpio21<gpio::Output>,
@@ -574,7 +574,7 @@ pub(crate) fn esp32c3_create_display_ili9341(
             spi::Pins {
                 sclk: sclk.into_output()?,
                 sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio8<gpio::Input>>::None,
+                sdi: Option::<gpio::Gpio0<gpio::Input>>::None,
                 cs: Some(cs),
             },
             config,
