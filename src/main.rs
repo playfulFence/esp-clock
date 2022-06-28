@@ -31,15 +31,19 @@ use time::macros::offset;
 use time::Date;
 
 
-use embedded_graphics::mono_font::{ascii::FONT_10X20, MonoTextStyle};
+use embedded_graphics::mono_font::{iso_8859_1::FONT_10X20, MonoTextStyle};
 use embedded_graphics::pixelcolor::*;
 use embedded_graphics::prelude::*;
 use embedded_graphics::primitives::*;
 use embedded_graphics::text::*;
+use embedded_graphics::image::Image;
 use embedded_text::alignment::* ;
 use embedded_text::style::* ;
 use embedded_text::TextBox;
 use embedded_graphics::text::renderer::TextRenderer;
+
+use profont::{PROFONT_24_POINT, PROFONT_18_POINT};
+use tinybmp::Bmp;
 
 use ili9341::{self, Orientation};
 
@@ -85,8 +89,12 @@ fn main() -> Result<()>
     //let mut measurementDelay :embedded_hal::blocking::delay;
 
 
-    &dp.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
+    
+    show_logo(&mut dp, true);
 
+    thread::sleep(Duration::from_secs(5));
+
+    show_logo(&mut dp, false);
 
     unsafe{
 
@@ -139,13 +147,9 @@ fn main() -> Result<()>
         let measurement = sht.get_measurement_result().unwrap();
 
         measurementsFlush(&mut dp,
-                  &format!("{:+.0} C", measurement.temperature.as_degrees_celsius()), 
-                   &format!("{:+.0} %RH", measurement.humidity.as_percent()),
+                  &format!("{:+.0}°C", measurement.temperature.as_degrees_celsius()), 
+                   &format!("{:+.0}%RH", measurement.humidity.as_percent()),
                   display::color_conv);
-
-        //let mut hum_buf = format!("{:+.0} %RH", measurement.humidity.as_percent());
-
-        //info!("{:+.0} °C\t  {:+.0} %RH", measurement.temperature.as_degrees_celsius(), measurement.humidity.as_percent());
 
         let mut stupid_temp_counter = MEASUREMENT_DELAY; // temp and humidity will refresh once at minute (now at 10secs)
     
@@ -214,8 +218,8 @@ fn main() -> Result<()>
                     info!("RH   = {:+.2} %RH", measurement.humidity.as_percent());
                         
                     
-                    let actual_temp = format!("{:+.0} C", measurement.temperature.as_degrees_celsius() as i32);
-                    let actual_hum = format!("{:+.0} %RH", measurement.humidity.as_percent());
+                    let actual_temp = format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() as i32);
+                    let actual_hum = format!("{:+.0}%RH", measurement.humidity.as_percent());
         
                 
                     measurementsFlush(&mut dp,
@@ -241,11 +245,11 @@ where
     D: DrawTarget + Dimensions,
 {
 
-    Rectangle::with_center(display.bounding_box().center(), Size::new(120, 40))
+    Rectangle::with_center(display.bounding_box().center() + Size::new(0, 15), Size::new(132, 40))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
-                .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+                .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
                 .stroke_width(1)
                 .build(),
         )
@@ -255,8 +259,8 @@ where
 
     Text::with_text_style(
         &toPrint,
-        display.bounding_box().center(), //(display.bounding_box().size.height - 10) as i32 / 2),
-        MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+        display.bounding_box().center() + Size::new(0, 10), //(display.bounding_box().size.height - 10) as i32 / 2),
+        MonoTextStyle::new(&PROFONT_24_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
         textStyle,
     )
     .draw(display);
@@ -270,11 +274,11 @@ where
     D: DrawTarget + Dimensions,
 {
     
-    Rectangle::new(Point::zero(), Size::new(130, 30))
+    Rectangle::new(Point::zero(), Size::new(170, 30))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))       /* for date in top-left of screen*/
-                .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+                .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
                 .stroke_width(1)
                 .build(),
         )
@@ -284,7 +288,7 @@ where
     Text::with_alignment(
         &toPrint,
         Point::new(5,20), //(display.bounding_box().size.height - 10) as i32 / 2),
-        MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+        MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
         Alignment::Left)
     .draw(display);
 
@@ -299,11 +303,11 @@ where
     D: DrawTarget + Dimensions,
 {
     
-    Rectangle::with_center(display.bounding_box().center() - Size::new(0, 30), Size::new(120, 20))
+    Rectangle::with_center(display.bounding_box().center() - Size::new(0, 20), Size::new(120, 30))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
-                .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+                .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
                 .stroke_width(1)
                 .build(),
         )
@@ -312,8 +316,8 @@ where
 
     Text::with_text_style(
         &toPrint,
-        display.bounding_box().center() - Size::new(0, 30), //(display.bounding_box().size.height - 10) as i32 / 2),
-        MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+        display.bounding_box().center() - Size::new(0, 25), //(display.bounding_box().size.height - 10) as i32 / 2),
+        MonoTextStyle::new(&PROFONT_24_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
         textStyle,
     )
     .draw(display);
@@ -328,11 +332,11 @@ where
 {
 
     // temperature
-    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 120, 0), Size::new(120, 40))
+    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 80, 0), Size::new(80, 40))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
-                .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+                .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
                 .stroke_width(1)
                 .build(),
         )
@@ -341,16 +345,16 @@ where
 
     Text::with_text_style(
         &toPrintTemp,
-        Point::new(display.bounding_box().size.width as i32 - 60, 20), //(display.bounding_box().size.height - 10) as i32 / 2),
-        MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+        Point::new(display.bounding_box().size.width as i32 - 35, 13), //(display.bounding_box().size.height - 10) as i32 / 2),
+        MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
         textStyle,
     )
     .draw(display);
 
                 // temporary solution till bitmap-font issue won't be solved
-    Circle::new(Point::new(display.bounding_box().size.width as i32 - 50, 14), 5)
-    .into_styled(PrimitiveStyle::with_stroke(color_conv(ZXColor::Black, ZXBrightness::Normal), 1))
-    .draw(display);
+    // Circle::new(Point::new(display.bounding_box().size.width as i32 - 50, 14), 5)
+    // .into_styled(PrimitiveStyle::with_stroke(color_conv(ZXColor::Black, ZXBrightness::Normal), 1))
+    // .draw(display);
 
     //humidity
 
@@ -358,7 +362,7 @@ where
     .into_styled(
         PrimitiveStyleBuilder::new()
             .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
-            .stroke_color(color_conv(ZXColor::Blue, ZXBrightness::Normal))
+            .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
             .stroke_width(1)
             .build(),
     )
@@ -367,12 +371,46 @@ where
 
 Text::with_text_style(
     &toPrintHum,
-    Point::new(display.bounding_box().size.width as i32 - 60, display.bounding_box().size.height as i32 - 20), //(display.bounding_box().size.height - 10) as i32 / 2),
-    MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+    Point::new(display.bounding_box().size.width as i32 - 50, display.bounding_box().size.height as i32 - 20), //(display.bounding_box().size.height - 10) as i32 / 2),
+    MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
     textStyle,
 )
 .draw(display);
 
+    Ok(())
+}
+
+
+fn show_logo<D>(display : &mut D, center : bool) -> anyhow::Result<()>
+where
+    D: DrawTarget<Color = embedded_graphics::pixelcolor::Rgb565> + Dimensions,
+    //D::Color :From<Rgb565>,
+{
+   
+
+    if center == true
+    {
+        display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
+        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-big.bmp")).unwrap();
+        Image::new(
+            &bmp, 
+            display.bounding_box().center() - Size::new(100, 100),
+            )
+        .draw(display);
+    }
+    else {
+        display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
+        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-small.bmp")).unwrap();
+        Image::new(
+            &bmp, 
+            Point::new(0, display.bounding_box().size.height as i32 - 50),
+            )
+        .draw(display);
+    }
+
+    
+
+                                        
 
     Ok(())
 }

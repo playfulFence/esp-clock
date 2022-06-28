@@ -75,6 +75,8 @@ icm42670                = { git = "https://github.com/jessebraham/icm42670" }
 shared-bus              = "0.2.4"
 shtcx                   = "0.10.0"
 bitmap-font             = "0.2.2"
+tinybmp = "0.3.3"
+profont = "0.6.1"
 #esp32c3_hal = { package = "esp32c3-hal",git = "https://github.com/esp-rs/esp-hal/" }  bare-metal variant, try later...
 
 
