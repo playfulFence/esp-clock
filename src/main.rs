@@ -139,7 +139,7 @@ fn main() -> Result<()>
         let measurement = sht.get_measurement_result().unwrap();
 
         measurementsFlush(&mut dp,
-                  &format!("{:+.0}°C", measurement.temperature.as_degrees_celsius()), 
+                  &format!("{:+.0} C", measurement.temperature.as_degrees_celsius()), 
                    &format!("{:+.0} %RH", measurement.humidity.as_percent()),
                   display::color_conv);
 
@@ -214,7 +214,7 @@ fn main() -> Result<()>
                     info!("RH   = {:+.2} %RH", measurement.humidity.as_percent());
                         
                     
-                    let actual_temp = format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() as i32);
+                    let actual_temp = format!("{:+.0} C", measurement.temperature.as_degrees_celsius() as i32);
                     let actual_hum = format!("{:+.0} %RH", measurement.humidity.as_percent());
         
                 
@@ -345,6 +345,11 @@ where
         MonoTextStyle::new(&FONT_10X20, color_conv(ZXColor::Black, ZXBrightness::Normal)),
         textStyle,
     )
+    .draw(display);
+
+                // temporary solution till bitmap-font issue won't be solved
+    Circle::new(Point::new(display.bounding_box().size.width as i32 - 50, 14), 5)
+    .into_styled(PrimitiveStyle::with_stroke(color_conv(ZXColor::Black, ZXBrightness::Normal), 1))
     .draw(display);
 
     //humidity

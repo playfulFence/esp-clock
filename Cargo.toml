@@ -52,7 +52,7 @@ esp32s2_usb_otg = []
 esp32s3_usb_otg = []
 
 [dependencies]
-anyhow                  = {version = "1", features = ["backtrace"]}
+anyhow                  = { version = "1", features = ["backtrace"] }
 log                     = "0.4"
 esp-idf-sys             = { version = "0.31.6", features = ["binstart"] }
 esp-idf-svc             = "0.42.0"
@@ -74,6 +74,7 @@ time                    = { version = "0.3.9", features = ["macros", "parsing"]}
 icm42670                = { git = "https://github.com/jessebraham/icm42670" }
 shared-bus              = "0.2.4"
 shtcx                   = "0.10.0"
+bitmap-font             = "0.2.2"
 #esp32c3_hal = { package = "esp32c3-hal",git = "https://github.com/esp-rs/esp-hal/" }  bare-metal variant, try later...
 
 
