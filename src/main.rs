@@ -8,6 +8,7 @@ use std::{thread, time::*, ptr, string::String, str::*};
 
 use std::result::Result::Ok;
 
+extern crate cfg_if;
 
 use anyhow::*;
 use embedded_graphics::geometry::AnchorPoint;
@@ -26,33 +27,26 @@ use embedded_svc::sys_time::SystemTime;
 use embedded_svc::timer::TimerService;
 use embedded_svc::timer::*;
 
-use time::OffsetDateTime;
+use time::{OffsetDateTime, format_description};
 use time::macros::offset;
 use time::Date;
 
 
-use embedded_graphics::mono_font::{iso_8859_1::FONT_10X20, MonoTextStyle};
+use embedded_graphics::mono_font::{ MonoTextStyle };
 use embedded_graphics::pixelcolor::*;
 use embedded_graphics::prelude::*;
 use embedded_graphics::primitives::*;
 use embedded_graphics::text::*;
 use embedded_graphics::image::Image;
-use embedded_text::alignment::* ;
-use embedded_text::style::* ;
-use embedded_text::TextBox;
-use embedded_graphics::text::renderer::TextRenderer;
 
 use profont::{PROFONT_24_POINT, PROFONT_18_POINT};
 use tinybmp::Bmp;
 
-use ili9341::{self, Orientation};
-
 
 use icm42670::{accelerometer::Accelerometer, Address, Icm42670};
 use shared_bus::BusManagerSimple;
-use shtcx::{shtc3, LowPower, PowerMode};
+use shtcx::{shtc3, LowPower, PowerMode, ShtC3};
 
-use display_interface_spi::SPIInterfaceNoCS;
 
 use rustzx_core::zx::video::colors::ZXBrightness;
 use rustzx_core::zx::video::colors::ZXColor;
@@ -64,6 +58,19 @@ const textStyle : TextStyle = TextStyleBuilder::new()
     .alignment(embedded_graphics::text::Alignment::Center)
     .baseline(embedded_graphics::text::Baseline::Middle)
     .build();
+
+// let date_time_format = format_description::parse(
+//     "[day]/[month]/[year] [hour]:[minute]:[second] [offset_hour \
+//     sign:mandatory]:[offset_minute]:[offset_second]",
+// )?;
+
+
+struct Measurements
+{
+    temperature : String,
+    humidity    : String,
+}
+
 
 const MEASUREMENT_DELAY: i8 = 10;
 
@@ -82,40 +89,23 @@ fn main() -> Result<()>
     let peripherals = Peripherals::take().unwrap();
     let mut dp = display::create!(peripherals)?;
 
-    let i2c = peripherals.i2c0;
-    let sda = peripherals.pins.gpio10;
-    let scl = peripherals.pins.gpio8;
-
-    //let mut measurementDelay :embedded_hal::blocking::delay;
-
-
+    show_logo(&mut dp);
     
-    show_logo(&mut dp, true);
-
-    thread::sleep(Duration::from_secs(5));
-
-    show_logo(&mut dp, false);
+   
 
     unsafe{
 
-    let config = <i2c::config::MasterConfig as Default>::default().baudrate(100.kHz().into());
-    let mut i2c = i2c::Master::<i2c::I2C0, _, _>::new(i2c, i2c::MasterPins { sda, scl }, config)?;
-
-    let bus = BusManagerSimple::new(i2c);
-    let mut icm = Icm42670::new(bus.acquire_i2c(), Address::Primary).unwrap();
-    let mut sht = shtc3(bus.acquire_i2c());
-
-    sht.start_measurement(PowerMode::NormalMode);
+    
 
         let mut tmInit : esp_idf_sys::tm = esp_idf_sys::tm{
-            tm_sec: 14 as esp_idf_sys::c_types::c_int,
-            tm_min: 29 as esp_idf_sys::c_types::c_int, 
-            tm_hour: 16 as esp_idf_sys::c_types::c_int, 
-            tm_mday: 10 as esp_idf_sys::c_types::c_int, 
+            tm_sec: 0 as esp_idf_sys::c_types::c_int,
+            tm_min: 52 as esp_idf_sys::c_types::c_int, 
+            tm_hour: 19 as esp_idf_sys::c_types::c_int, 
+            tm_mday: 28 as esp_idf_sys::c_types::c_int, 
             tm_mon: 5 as esp_idf_sys::c_types::c_int,  // starts with 0 
             tm_year: (2022  - 1900) as esp_idf_sys::c_types::c_int,
             tm_wday: 4 as esp_idf_sys::c_types::c_int,
-            tm_yday: 161 as esp_idf_sys::c_types::c_int,
+            tm_yday: 179 as esp_idf_sys::c_types::c_int,
             tm_isdst: 0 as esp_idf_sys::c_types::c_int,
         };
 
@@ -143,14 +133,31 @@ fn main() -> Result<()>
             &mut dp, 
             &actual_date.weekday().to_string(),
             display::color_conv);
+
+        cfg_if::cfg_if! {
+            if #[cfg(feature = "esp32c3_ili9341")] {
+                let i2c = peripherals.i2c0;
+                let sda = peripherals.pins.gpio10;
+                let scl = peripherals.pins.gpio8;
+
+                let config = <i2c::config::MasterConfig as Default>::default().baudrate(100.kHz().into());
+                let mut i2c = i2c::Master::<i2c::I2C0, _, _>::new(i2c, i2c::MasterPins { sda, scl }, config)?;
             
-        let measurement = sht.get_measurement_result().unwrap();
+                let bus = BusManagerSimple::new(i2c);
+                let mut icm = Icm42670::new(bus.acquire_i2c(), Address::Primary).unwrap();
+                let mut sht = shtc3(bus.acquire_i2c());
+            
+                sht.start_measurement(PowerMode::LowPower);
+            
+                let measurement = sht.get_measurement_result().unwrap();
+            }
+        }
 
         measurementsFlush(&mut dp,
-                  &format!("{:+.0}°C", measurement.temperature.as_degrees_celsius()), 
-                   &format!("{:+.0}%RH", measurement.humidity.as_percent()),
-                  display::color_conv);
-
+            &format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() - 3.0), 
+             &format!("{:+.0}%RH", measurement.humidity.as_percent()),
+            display::color_conv);
+            
         let mut stupid_temp_counter = MEASUREMENT_DELAY; // temp and humidity will refresh once at minute (now at 10secs)
     
         loop
@@ -177,9 +184,7 @@ fn main() -> Result<()>
 
 
                 let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?;
-                                    //.to_offset(offset!(+2));
-                                    // .time()
-                                    // .to_string();
+
 
                 timeFlush(
                     &mut dp, 
@@ -218,7 +223,7 @@ fn main() -> Result<()>
                     info!("RH   = {:+.2} %RH", measurement.humidity.as_percent());
                         
                     
-                    let actual_temp = format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() as i32);
+                    let actual_temp = format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() as i32 - 3); // magic constant -3, cause sensors shows temp which is 3 more, than real
                     let actual_hum = format!("{:+.0}%RH", measurement.humidity.as_percent());
         
                 
@@ -326,7 +331,7 @@ where
     Ok(())
 } 
 
-fn measurementsFlush<D>(display : &mut D, toPrintTemp: &String, toPrintHum: &String,  color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
+fn measurementsFlush<D>(display : &mut D, toPrintTemp: &String, toPrintHum: &String, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
 where
     D: DrawTarget + Dimensions, 
 {
@@ -351,12 +356,6 @@ where
     )
     .draw(display);
 
-                // temporary solution till bitmap-font issue won't be solved
-    // Circle::new(Point::new(display.bounding_box().size.width as i32 - 50, 14), 5)
-    // .into_styled(PrimitiveStyle::with_stroke(color_conv(ZXColor::Black, ZXBrightness::Normal), 1))
-    // .draw(display);
-
-    //humidity
 
     Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 120, display.bounding_box().size.height as i32 - 40), Size::new(120, 40))
     .into_styled(
@@ -381,36 +380,58 @@ Text::with_text_style(
 }
 
 
-fn show_logo<D>(display : &mut D, center : bool) -> anyhow::Result<()>
+fn show_logo<D>(display : &mut D) -> anyhow::Result<()>
 where
     D: DrawTarget<Color = embedded_graphics::pixelcolor::Rgb565> + Dimensions,
-    //D::Color :From<Rgb565>,
 {
+
+    info!("Welcome!");
    
+    display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
+    let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-big.bmp")).unwrap();
+    Image::new(
+        &bmp, 
+        display.bounding_box().center() - Size::new(100, 100),
+        )
+    .draw(display);
 
-    if center == true
-    {
-        display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
-        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-big.bmp")).unwrap();
-        Image::new(
-            &bmp, 
-            display.bounding_box().center() - Size::new(100, 100),
-            )
-        .draw(display);
-    }
-    else {
-        display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
-        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-small.bmp")).unwrap();
-        Image::new(
-            &bmp, 
-            Point::new(0, display.bounding_box().size.height as i32 - 50),
-            )
-        .draw(display);
-    }
+    thread::sleep(Duration::from_secs(5));
 
-    
+    display.clear(display::color_conv(ZXColor::White, ZXBrightness::Normal));
+    let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/esp-rs-small.bmp")).unwrap();
+    Image::new(
+        &bmp, 
+        Point::new(0, display.bounding_box().size.height as i32 - 50),
+        )
+    .draw(display);
 
-                                        
 
     Ok(())
 }
+
+// #[cfg(feature = "esp32c3_ili9341")]
+// fn get_measurements(peripherals: Peripherals) -> Measurements
+// {
+//         let i2c = peripherals.i2c0;
+//         let sda = peripherals.pins.gpio10;
+//         let scl = peripherals.pins.gpio8;
+
+//         let config = <i2c::config::MasterConfig as Default>::default().baudrate(100.kHz().into());
+//         let mut i2c = i2c::Master::<i2c::I2C0, _, _>::new(i2c, i2c::MasterPins { sda, scl }, config)?;
+    
+//         let bus = BusManagerSimple::new(i2c);
+//         let mut icm = Icm42670::new(bus.acquire_i2c(), Address::Primary).unwrap();
+//         let mut sht = shtc3(bus.acquire_i2c());
+    
+//         sht.start_measurement(PowerMode::LowPower);
+    
+//         let measurement = sht.get_measurement_result().unwrap();
+
+//         Measurements { 
+//             temperature: format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() as i32 - 3), 
+//             humidity:  measurement.humidity.as_percent().to_string() }
+
+// }
+
+// #[cfg(feature = "esp32c3_ili9341")]
+// fn temp_sens_init(peripherals: Peripherals) -> 
