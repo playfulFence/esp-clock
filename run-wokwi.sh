@@ -35,8 +35,8 @@ elif [ "${CODESPACE_NAME}" != "" ];then
 fi
 
 export ESP_BOARD="esp32c3"
-export ESP_ELF="brno-public-transport"
-export WOKWI_PROJECT_ID="332616143815574099"
+export ESP_ELF="esp-clock"
+export WOKWI_PROJECT_ID="336529450034266706"
 if [ "${ESP_BOARD}" == "esp32c3" ]; then
     export ESP_ARCH="riscv32imc-esp-espidf"
     export WOKWI_PROJECT_ID=""
@@ -44,7 +44,7 @@ elif [ "${ESP_BOARD}" == "esp32s2" ]; then
     export WOKWI_PROJECT_ID=""
     export ESP_ARCH="xtensa-esp32s2-espidf"
 else
-    export WOKWI_PROJECT_ID="332616143815574099"
+    export WOKWI_PROJECT_ID=""
     export ESP_ARCH="xtensa-esp32-espidf"
 fi
 

@@ -5,7 +5,7 @@ authors = ["Kirill Mikhailov <kirill.mikhailov@espressif.com>"]
 edition = "2021"
 categories = ["embedded", "hardware-support"]
 keywords = ["embedded", "idf", "esp-idf", "esp32", "zx"]
-description = "Emulation of Spectrum ZX on the ESP32"
+description = "Demonstration of esp-rust-board functionality"
 repository = "https://github.com/playfulFence/esp-clock"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
@@ -19,7 +19,7 @@ opt-level = "z"
 #opt-level = "s"
 
 [features]
-default = [ "esp32s2_ili9341" ]
+default = [ "esp32c3_ili9341" ]
 
 # Enable this feature in case you have a ESP32 ILI9341 board
 esp32_ili9341 = []
