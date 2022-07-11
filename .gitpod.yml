@@ -6,6 +6,7 @@ tasks:
  - name: Setup environment variables for Rust and ESP-IDF
    command: |
      source /home/gitpod/export-esp.sh
+     export CURRENT_PROJECT=/workspace/esp-clock 
 vscode:
   extensions:
     - matklad.rust-analyzer
