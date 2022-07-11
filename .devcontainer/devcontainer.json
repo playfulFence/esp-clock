@@ -1,7 +1,7 @@
 {
     "name": "esp-clock",
     "build": {
-      "dockerfile": "Dockerfile",
+      "dockerfile": "../Containerfile",
       "args": {
         "CONTAINER_USER": "esp",
         "CONTAINER_GROUP": "esp",
@@ -34,8 +34,7 @@
     ],
     "forwardPorts": [
       9012,
-      9333,
-      8000
+      9333
     ],
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/workspace,type=bind,consistency=cached",
     "workspaceFolder": "/home/esp/workspace/"
