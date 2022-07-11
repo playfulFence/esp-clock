@@ -13,21 +13,6 @@ else
     export CURRENT_PROJECT=~/workspace/
 fi
 
-BUILD_MODE=""
-case "$1" in
-    ""|"release")
-        bash build.sh
-        BUILD_MODE="release"
-        ;;
-    "debug")
-        bash build.sh debug
-        BUILD_MODE="debug"
-        ;;
-    *)
-        echo "Wrong argument. Only \"debug\"/\"release\" arguments are supported"
-        exit 1;;
-esac
-
 
 #if [ "${USER}" == "gitpod" ];then
 #    gp_url=$(gp url 9012)
@@ -53,5 +38,13 @@ else
     export WOKWI_PROJECT_ID=""
     export ESP_ARCH="xtensa-esp32-espidf"
 fi
+
+
+cargo espflash save-image app.bin --release 
+
+find target/${ESP_ARCH}/release -name bootloader.bin -exec cp {} . \;
+find target/${ESP_ARCH}/release -name partition-table.bin -exec cp {} . \;
+
+python3 esp32-wokwi-gitpod-websocket-server/server.py
 
 #wokwi-server --chip ${ESP_BOARD} --id ${WOKWI_PROJECT_ID} ${CURRENT_PROJECT}/target/${ESP_ARCH}/${BUILD_MODE}/${ESP_ELF} ${ESP_ELF}
