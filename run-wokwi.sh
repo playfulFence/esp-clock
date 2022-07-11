@@ -2,6 +2,7 @@
 
 set -e
 
+
 if [ "${USER}" == "gitpod" ]; then
     export CURRENT_PROJECT=/workspace/esp-clock
     which idf.py >/dev/null || {
@@ -12,6 +13,8 @@ if [ "${USER}" == "gitpod" ]; then
 else
     export CURRENT_PROJECT=~/workspace/
 fi
+
+pip3 install websockets
 
 
 #if [ "${USER}" == "gitpod" ];then
@@ -40,11 +43,10 @@ else
 fi
 
 
-cargo espflash save-image app.bin --release 
+cargo espflash save-image app.bin --target "${ESP_ARCH}" --release
 
 find target/${ESP_ARCH}/release -name bootloader.bin -exec cp {} . \;
 find target/${ESP_ARCH}/release -name partition-table.bin -exec cp {} . \;
 
-python3 esp32-wokwi-gitpod-websocket-server/server.py
+python3 ~/esp32-wokwi-gitpod-websocket-server/server.py
 
-#wokwi-server --chip ${ESP_BOARD} --id ${WOKWI_PROJECT_ID} ${CURRENT_PROJECT}/target/${ESP_ARCH}/${BUILD_MODE}/${ESP_ELF} ${ESP_ELF}
