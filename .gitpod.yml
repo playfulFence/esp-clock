@@ -1,12 +1,9 @@
-# Select the proper tag: refer to https://github.com/SergioGasquez/esp-rs-container
-# for more information about tags
 image:
   file: .gitpod.Dockerfile
 tasks:
  - name: Setup environment variables for Rust and ESP-IDF
    command: |
-     source /home/gitpod/export-rust.sh
-     export CURRENT_PROJECT=/workspace/esp-clock 
+     source /home/gitpod/export-esp.sh
 vscode:
   extensions:
     - matklad.rust-analyzer
@@ -21,6 +18,6 @@ ports:
     visibility: public
   - port: 9333
     visibility: public
-   #- port: 8000
-   # visibility: public
-   # onOpen: open-browser
+  - port: 8000
+    visibility: public
+    onOpen: open-browser
