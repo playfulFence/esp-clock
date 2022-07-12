@@ -1,6 +1,6 @@
 
 {
-  "name": "espclock",
+  "name": "esp-clock",
   // Select between image and build propieties to pull or build the image.
   // "image": "docker.io/espressif/idf-rust:{{ mcu }}
   // {%- if espidfver == "mainline" -%}

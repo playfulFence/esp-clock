@@ -5,11 +5,11 @@ set -e
 BUILD_MODE=""
 case "$1" in
     ""|"release")
-        bash scripts/build.sh
+        bash build.sh
         BUILD_MODE="release"
         ;;
     "debug")
-        bash scripts/build.sh debug
+        bash build.sh debug
         BUILD_MODE="debug"
         ;;
     *)
@@ -24,4 +24,4 @@ riscv32imc-esp-espidf
 xtensa-{{ mcu }}-espidf
 {%- endif %}
 
-web-flash --chip {{ mcu }} target/${ESP_ARCH}/${BUILD_MODE}/esp32c3
+web-flash --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp32c3
