@@ -25,12 +25,7 @@ elif [ "${CODESPACE_NAME}" != "" ];then
     export WOKWI_HOST=${CODESPACE_NAME}-9012.githubpreview.dev
 fi
 
-export ESP_ARCH=
-{%- if mcu == "esp32c3" -%}
-riscv32imc-esp-espidf
-{%- else -%}
-xtensa-{{ mcu }}-espidf
-{%- endif %}
+export ESP_ARCH=riscv32imc-esp-espidf
 
 # TODO: Update with your Wokwi Project
 export WOKWI_PROJECT_ID="336529450034266706"
