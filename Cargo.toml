@@ -19,15 +19,20 @@ opt-level = "z"
 #opt-level = "s"
 
 [features]
-default = [ "esp32c3_ili9341" ]
+default = [ "esp32s2_ili9341" ]
+# default = [ "esp32c3_rust_board_ili9341" ]
+# default = [ "esp32_ili9341", "tcpstream_keyboard", "web_server" ]
+# default = [ "esp32s2_usb_otg" ]
+# default = [ "esp32s2_usb_otg", "tcpstream_keyboard" ]
+# default = [ "kaluga_ili9341", "tcpstream_keyboard" ]
 
 # Enable this feature in case you have a ESP32 ILI9341 board
 esp32_ili9341 = []
 
-# Enable this feature in case you have a ESP32 ILI9341 board
+# Enable this feature in case you have a ESP32S2 ILI9341 board
 esp32s2_ili9341 = []
 
-# Enable this feature in case you have a ESP32 ILI9341 board
+# Enable this feature in case you have a ESP32S3 ILI9341 board
 esp32s3_ili9341 = []
 
 # Enable this feature in case you have a ESP32C3 ILI9341 board
@@ -50,6 +55,12 @@ esp32s2_usb_otg = []
 
 # Enable this feature in case you have an ESP32S3-USB-OTG board
 esp32s3_usb_otg = []
+
+# Enable this feature in case you have an ESP32C3-RUST-BOARD AND you want to use it's on-board sensors
+esp32c3_rust_board_ili9341 = []
+
+# Enable this feature in case you want to use network communication
+wifi = []
 
 [dependencies]
 anyhow                  = { version = "1", features = ["backtrace"] }
@@ -76,7 +87,11 @@ bitmap-font             = "0.2.2"
 tinybmp = "0.3.3"
 profont = "0.6.1"
 cfg-if = "1.0.0"
+toml-cfg = "0.1.3"
 #esp32c3_hal = { package = "esp32c3-hal",git = "https://github.com/esp-rs/esp-hal/" }  bare-metal variant, try later...
+
+[patch.crates-io]
+esp-idf-hal = { git = "https://github.com/esp-rs/esp-idf-hal", branch = "bugfix/pthread_convar_timeout_relative" }
 
 
 

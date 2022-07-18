@@ -48,7 +48,8 @@ compile_error!(
     feature = "esp32s2_usb_otg",
     feature = "esp32s3_usb_otg",
     feature = "esp32s2_ili9341",
-    feature = "esp32s3_ili9341"
+    feature = "esp32s3_ili9341",
+    feature = "esp32c3_rust_board_ili9341"
 )))]
 compile_error!("You have to define exactly one board with a LED screen using one of the features `ttgo`, `kaluga_ili9341`, `kaluga_st7789`, `esp32s2_usb_otg`, `esp32s3_usb_otg` or `heltec`.");
 
@@ -131,12 +132,12 @@ macro_rules! create {
 
         #[cfg(feature = "esp32s2_ili9341")]
         let result = display::esp32s2_create_display_ili9341(
-            $peripherals.pins.gpio38,
+            $peripherals.pins.gpio20,
             $peripherals.pins.gpio1,
             $peripherals.pins.gpio0,
             $peripherals.spi2,
             $peripherals.pins.gpio8,
-            $peripherals.pins.gpio39,
+            $peripherals.pins.gpio21,
             $peripherals.pins.gpio9,
         );
 
@@ -151,7 +152,7 @@ macro_rules! create {
             $peripherals.pins.gpio0,
         );
 
-        #[cfg(feature = "esp32c3_ili9341")]
+        #[cfg(any(feature = "esp32c3_ili9341", feature = "esp32c3_rust_board_ili9341"))]
         let result = display::esp32c3_create_display_ili9341(
             $peripherals.pins.gpio0,
             $peripherals.pins.gpio21,
@@ -336,12 +337,12 @@ pub(crate) fn esp32_create_display_ili9341(
 
 #[cfg(feature = "esp32s2_ili9341")]
 pub(crate) fn esp32s2_create_display_ili9341(
-    backlight: gpio::Gpio38<gpio::Unknown>,
+    backlight: gpio::Gpio20<gpio::Unknown>,
     dc: gpio::Gpio1<gpio::Unknown>, // 
     rst: gpio::Gpio0<gpio::Unknown>, //
     spi: spi::SPI2,
     sclk: gpio::Gpio8<gpio::Unknown>, //
-    sdo: gpio::Gpio39<gpio::Unknown>,  //
+    sdo: gpio::Gpio21<gpio::Unknown>,  //
     cs: gpio::Gpio9<gpio::Unknown>, // -> 20
 ) -> Result<
     ili9341::Ili9341<
@@ -349,7 +350,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
             spi::Master<
                 spi::SPI2,
                 gpio::Gpio8<gpio::Output>,
-                gpio::Gpio39<gpio::Output>,
+                gpio::Gpio21<gpio::Output>,
                 gpio::Gpio4<gpio::Input>,
                 gpio::Gpio9<gpio::Unknown>,
             >,
@@ -507,7 +508,7 @@ pub(crate) fn esp32s3_create_display_ili9341(
     ).map_err(|e| anyhow!("Failed to init display"))
 }
 
-#[cfg(feature = "esp32c3_ili9341")]
+#[cfg(any(feature = "esp32c3_ili9341", feature = "esp32c3_rust_board_ili9341"))]
 pub(crate) fn esp32c3_create_display_ili9341(
     backlight: gpio::Gpio0<gpio::Unknown>,
     dc: gpio::Gpio21<gpio::Unknown>, // 
@@ -849,7 +850,8 @@ pub(crate) fn esp32s2s3_usb_otg_create_display(
     feature = "kaluga_ili9341",
     feature = "kaluga_st7789",
     feature = "esp32s2_ili9341",
-    feature = "esp32s3_ili9341"
+    feature = "esp32s3_ili9341",
+    feature = "esp32c3_rust_board_ili9341"
 ))]
 pub(crate) fn color_conv(color: ZXColor, _brightness: ZXBrightness) -> Rgb565 {
     match color {
