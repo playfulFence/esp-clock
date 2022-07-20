@@ -51,6 +51,6 @@
     9333,
     8000
   ],
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/esp-clock ,type=bind,consistency=cached",
-  "workspaceFolder": "/home/esp/esp-clock"
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/workspace ,type=bind,consistency=cached",
+  "workspaceFolder": "/home/esp/workspace/"
 }

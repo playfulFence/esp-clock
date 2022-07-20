@@ -39,13 +39,12 @@ RUN chmod a+x ${INSTALL_RUST_TOOLCHAIN} \
     --minified-esp-idf "YES" \
     --build-target "esp32c3"
 
-# Clone esp32-wokwi-gitpod-websocket-server
-RUN git clone https://github.com/georgik/esp32-wokwi-gitpod-websocket-server.git
+# Install web-flash and wokwi-server
+RUN cargo install web-flash --git https://github.com/bjoernQ/esp-web-flash-server \
+    && RUSTFLAGS="--cfg tokio_unstable" cargo install wokwi-server --git https://github.com/MabezDev/wokwi-server --locked
 
 # Activate ESP environment
-ENV IDF_TOOLS_PATH=/home/${CONTAINER_USER}/.espressif
-RUN echo "source /home/${CONTAINER_USER}/.espressif/frameworks/esp-idf/export.sh > /dev/null 2>&1" >> ~/.bashrc
-RUN echo "source /home/${CONTAINER_USER}/export-rust.sh > /dev/null 2>&1" >> ~/.bashrc
+RUN echo "source /home/${CONTAINER_USER}/export-rust.sh" >> ~/.bashrc
 
 ENV CURRENT_PROJECT=esp-clock
 CMD [ "/bin/bash" ]
