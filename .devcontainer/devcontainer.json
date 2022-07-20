@@ -9,7 +9,7 @@
   // _v4.4_1.61.0.0",
   // {%- endif %}
   "build": {
-    "dockerfile": "Dockerfile",
+    "dockerfile": "../Containerfile",
     "args": {
       "CONTAINER_USER": "esp",
       "CONTAINER_GROUP": "esp",

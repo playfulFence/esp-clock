@@ -29,7 +29,7 @@ export ESP_ARCH=riscv32imc-esp-espidf
 
 # TODO: Update with your Wokwi Project
 export WOKWI_PROJECT_ID="336529450034266706"
-if [ "${WOKWI_PROJECT_ID}" == "336529450034266706" ]; then
+if [ "${WOKWI_PROJECT_ID}" == "" ]; then
     wokwi-server --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/"esp-clock"
 else
     wokwi-server --chip esp32c3 --id ${WOKWI_PROJECT_ID} target/${ESP_ARCH}/${BUILD_MODE}/"esp-clock"

@@ -31,13 +31,12 @@ ADD --chown=${CONTAINER_USER}:${CONTAINER_GROUP} \
 
 RUN chmod a+x ${INSTALL_RUST_TOOLCHAIN} \
     && ./${INSTALL_RUST_TOOLCHAIN} \
-    --extra-crates "ldproxy cargo-espflash wokwi-server web-flash" \
-    --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-esp.sh \
-    --esp-idf-version "${ESP_IDF_VERSION}" \
+    --extra-crates "cargo-espflash ldproxy" \
+    --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh \
+    --esp-idf-version "release/v4.4" \
     --minified-esp-idf "YES" \
-    --build-target "${ESP_BOARD}" \
-    && rustup component add clippy rustfmt
+    --build-target "esp32c3"
 
 # Install web-flash and wokwi-server
-#RUN cargo install web-flash --git https://github.com/bjoernQ/esp-web-flash-server \
-#    && RUSTFLAGS="--cfg tokio_unstable" cargo install wokwi-server --git https://github.com/MabezDev/wokwi-server --locked
+RUN cargo install web-flash --git https://github.com/bjoernQ/esp-web-flash-server \
+    && RUSTFLAGS="--cfg tokio_unstable" cargo install wokwi-server --git https://github.com/MabezDev/wokwi-server --locked

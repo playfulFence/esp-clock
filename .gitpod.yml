@@ -3,7 +3,7 @@ image:
 tasks:
  - name: Setup environment variables for Rust and ESP-IDF
    command: |
-     source /home/gitpod/export-esp.sh
+     source /home/gitpod/export-rust.sh
 vscode:
   extensions:
     - matklad.rust-analyzer
