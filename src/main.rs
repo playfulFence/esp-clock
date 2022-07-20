@@ -13,6 +13,7 @@ use std::result::Result::Ok;
 extern crate cfg_if;
 
 use anyhow::*;
+use cfg_if::cfg_if;
 use embedded_graphics::geometry::AnchorPoint;
 use embedded_hal::prelude::_embedded_hal_blocking_delay_DelayMs;
 use embedded_svc::httpd::app;
@@ -78,21 +79,24 @@ const textStyle : TextStyle = TextStyleBuilder::new()
     .baseline(embedded_graphics::text::Baseline::Middle)
     .build();
 
-const MEASUREMENT_DELAY: i8 = 10;
+
 
 
 #[toml_cfg::toml_config]
 pub struct Config {
     #[default("")]
-    mqtt_host: &'static str,
-    #[default("")]
     mqtt_user: &'static str,
+    #[default("")]
+    broker_url: &'static str,
     #[default("")]
     wifi_ssid: &'static str,
     #[default("")]
     wifi_pass: &'static str,
+    #[default("measurements")]
+    topic_name: &'static str,
 }
 
+const MEASUREMENT_DELAY: i32 = 10;
 
 fn main() -> Result<()> 
 {
@@ -112,6 +116,32 @@ fn main() -> Result<()>
     let mut dp = display::create!(peripherals)?;
 
     show_logo(&mut dp);
+    wifi_image(&mut dp, false, display::color_conv);
+
+    cfg_if::cfg_if! {
+        if #[cfg(feature = "wifi")] {
+
+            wifi_connecting(&mut dp, false, display::color_conv);
+
+            let netif_stack = Arc::new(EspNetifStack::new()?);
+            let sys_loop_stack = Arc::new(EspSysLoopStack::new()?);
+            let default_nvs = Arc::new(EspDefaultNvs::new()?);
+        
+
+            info!("About to initialize WiFi (SSID: {}, PASS: {})", app_config.wifi_ssid, app_config.wifi_pass);
+
+            let _wifi = wifi(
+                netif_stack.clone(),
+                sys_loop_stack.clone(),
+                default_nvs.clone(),
+                app_config.wifi_ssid,
+                app_config.wifi_pass,
+            )?;
+
+            wifi_connecting(&mut dp, true, display::color_conv);
+        }
+
+    } 
     
    
 
@@ -179,27 +209,12 @@ fn main() -> Result<()>
 
                 measurementsFlush(&mut dp,
                         &format!("{:+.0}°C", measurement.temperature.as_degrees_celsius() - 3.0), 
-                         &format!("{:+.0}%RH", measurement.humidity.as_percent()),
+                        &format!("{:+.0}%RH", measurement.humidity.as_percent()),
+                        true, 
                         display::color_conv);
             }
             else {
                 
-                let netif_stack = Arc::new(EspNetifStack::new()?);
-                let sys_loop_stack = Arc::new(EspSysLoopStack::new()?);
-                let default_nvs = Arc::new(EspDefaultNvs::new()?);
-            
-
-
-                info!("About to initialize WiFi (SSID: {}, PASS: {})", app_config.wifi_ssid, app_config.wifi_pass);
-
-                let _wifi = wifi(
-                    netif_stack.clone(),
-                    sys_loop_stack.clone(),
-                    default_nvs.clone(),
-                    app_config.wifi_ssid,
-                    app_config.wifi_pass,
-                )?;
-
                 info!("About to set mqtt-configuration with client ID \"{}\"", app_config.mqtt_user);
 
                 let mqtt_config = MqttClientConfiguration {
@@ -207,12 +222,11 @@ fn main() -> Result<()>
                     ..Default::default()
                 };
                 
-                let broker_url = "mqtt://broker.hivemq.com:1883";
                 info!("About to connect mqtt-client");
 
 
                 let (mut client, mut connection) = 
-                        EspMqttClient::new_with_conn(app_config.mqtt_host, &mqtt_config)?;
+                        EspMqttClient::new_with_conn(app_config.broker_url, &mqtt_config)?;
                 info!("Connected");
 
                 let (sender, receiver) = channel();
@@ -247,17 +261,28 @@ fn main() -> Result<()>
                     info!("MQTT connection loop exit");
                 });
 
-                client.subscribe("esp-clock/measurements", QoS::AtLeastOnce)?;
-                info!("Subscribed to topic \"esp-clock/measurements\"");
-
-                let mut recv = receiver.recv().unwrap();
+                client.subscribe(app_config.topic_name, QoS::AtLeastOnce)?;
+                info!("Subscribed to topic \"{}\"", app_config.topic_name);
 
 
-                info!("Received MQTT message in main thread: {}", recv);
-                measurementsFlush(&mut dp,
-                    &format!("{}°C", &recv[0..2]), 
-                    &format!("{}%RH", &recv[5..8]), 
-                    display::color_conv);
+
+                match receiver.try_recv() {
+                    Err(e) => {
+                        measurementsFlush(&mut dp,
+                            &String::from("No\ndata"), 
+                            &String::from("No\ndata"),
+                            false,
+                            display::color_conv);
+                    },
+                    Ok(response) => {
+                        measurementsFlush(&mut dp,
+                            &format!("{}°C",&response[0..2]), 
+                            &format!("{}%RH",&response[5..8]),
+                            true,
+                            display::color_conv);
+                    }
+                }
+
             }
 
         }
@@ -330,14 +355,34 @@ fn main() -> Result<()>
                             measurementsFlush(&mut dp,
                                     &actual_temp, 
                                     &actual_hum,
+                                    true,
                                     display::color_conv);
                         }
                         else {
-                            recv = receiver.recv().unwrap();
-                            measurementsFlush(&mut dp,
-                                &format!("{}°C",&recv[0..2]), 
-                                &format!("{}%RH",&recv[5..8]), 
-                                display::color_conv);
+                            info!("Waiting for message from MQTT thread");
+
+
+                            // classic recv function may cause the thread blocking since it just turns it
+                            // in waiting mode and clocks are stopped then
+
+                           
+                            match receiver.try_recv() {
+                                Err(e) => {
+                                    measurementsFlush(&mut dp,
+                                        &String::from("No\ndata"), 
+                                        &String::from("No\ndata"),
+                                        false,
+                                        display::color_conv);
+                                },
+                                Ok(response) => {
+                                    measurementsFlush(&mut dp,
+                                        &format!("{}°C",&response[0..2]), 
+                                        &format!("{}%RH",&response[5..8]),
+                                        true,
+                                        display::color_conv);
+                                }
+                            }
+                            
                         }
                     }
 
@@ -440,13 +485,13 @@ where
     Ok(())
 } 
 
-fn measurementsFlush<D>(display : &mut D, toPrintTemp: &String, toPrintHum: &String, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
+fn measurementsFlush<D>(display : &mut D, toPrintTemp: &String, toPrintHum: &String, humOrND: bool, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
 where
     D: DrawTarget + Dimensions, 
 {
 
     // temperature
-    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 80, 0), Size::new(80, 40))
+    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 80, 0), Size::new(80, 45))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
@@ -465,8 +510,8 @@ where
     )
     .draw(display);
 
-
-    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 120, display.bounding_box().size.height as i32 - 40), Size::new(120, 40))
+    // humidity 
+    Rectangle::new(Point::new(display.bounding_box().size.width as i32 - 80, display.bounding_box().size.height as i32 - 50), Size::new(120, 40))
     .into_styled(
         PrimitiveStyleBuilder::new()
             .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
@@ -476,14 +521,26 @@ where
     )
     .draw(display);
 
-
-Text::with_text_style(
-    &toPrintHum,
-    Point::new(display.bounding_box().size.width as i32 - 50, display.bounding_box().size.height as i32 - 20), //(display.bounding_box().size.height - 10) as i32 / 2),
-    MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
-    textStyle,
-)
-.draw(display);
+    if humOrND {
+            //print humidity
+        Text::with_text_style(
+            &toPrintHum,
+            Point::new(display.bounding_box().size.width as i32 - 50, display.bounding_box().size.height as i32 - 20),
+            MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+            textStyle,
+        )
+        .draw(display);
+    }
+    else { 
+            // print "No Data"
+        Text::with_text_style(
+            &toPrintHum,
+            Point::new(display.bounding_box().size.width as i32 - 35, display.bounding_box().size.height as i32 - 40),
+            MonoTextStyle::new(&PROFONT_18_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+            textStyle,
+        )
+        .draw(display);
+    }
 
     Ok(())
 }
@@ -517,6 +574,8 @@ where
 
     Ok(())
 }
+
+
 
 #[allow(dead_code)]
 fn wifi(
@@ -559,18 +618,88 @@ fn wifi(
     Ok(wifi)
 }
 
+fn wifi_connecting<D>(display: &mut D, connected: bool, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
+where
+    D: DrawTarget<Color = embedded_graphics::pixelcolor::Rgb565> + Dimensions,
+{
+    Rectangle::with_center(display.bounding_box().center(), Size::new(display.bounding_box().size.width, 80))
+    .into_styled(
+        PrimitiveStyleBuilder::new()
+            .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+            .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+            .stroke_width(1)
+            .build(),
+    )
+    .draw(display);
 
-// fn get_temp(s: &String) ->  {
-//     let bytes = s.as_bytes();
+    if connected {
+        Text::with_text_style(
+            "Wi-Fi connected",
+            display.bounding_box().center() - Size::new(0, 25), //(display.bounding_box().size.height - 10) as i32 / 2),
+            MonoTextStyle::new(&PROFONT_24_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+            textStyle,
+        )
+        .draw(display);
 
-//     for (i, &item) in bytes.iter().enumerate() {
-//         if item == b' ' {
-//             return i;
-//         }
-//     }
+        wifi_image(display, true, color_conv);
 
-//     s.len()
-// }
+        thread::sleep(Duration::from_secs(2));
+
+        Rectangle::with_center(display.bounding_box().center(), Size::new(display.bounding_box().size.width, 80))
+        .into_styled(
+            PrimitiveStyleBuilder::new()
+                .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+                .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+                .stroke_width(1)
+                .build(),
+        )
+        .draw(display);
+    }
+    else {
+        Text::with_text_style(
+            "Connecting Wi-Fi...",
+            display.bounding_box().center() - Size::new(0, 25), //(display.bounding_box().size.height - 10) as i32 / 2),
+            MonoTextStyle::new(&PROFONT_24_POINT, color_conv(ZXColor::Black, ZXBrightness::Normal)),
+            textStyle,
+        )
+        .draw(display);
+    }
+
+    Ok(())
+}
+
+fn wifi_image<D>(display: &mut D, wifi: bool, color_conv: fn(ZXColor, ZXBrightness) -> D::Color) -> anyhow::Result<()>
+where
+    D: DrawTarget<Color = embedded_graphics::pixelcolor::Rgb565> + Dimensions,
+{
+    if wifi {
+        Rectangle::new(Point::new(50, display.bounding_box().size.height as i32 - 50), Size::new(50, 50))
+        .into_styled(
+        PrimitiveStyleBuilder::new()
+            .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+            .stroke_color(color_conv(ZXColor::White, ZXBrightness::Normal))
+            .stroke_width(1)
+            .build(),
+        )
+        .draw(display);
+        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/wifi.bmp")).unwrap();
+        Image::new(
+            &bmp, 
+            Point::new(53, display.bounding_box().size.height as i32 - 50),
+            )
+        .draw(display);
+    }
+    else {
+        let bmp = Bmp::<Rgb565>::from_slice(include_bytes!("../assets/wifi_not_connected.bmp")).unwrap();
+        Image::new(
+            &bmp, 
+            Point::new(53, display.bounding_box().size.height as i32 - 50),
+            )
+        .draw(display);
+    }
+
+    Ok(())
+}
 
 
 //#[cfg(feature = "esp32c3_ili9341")]

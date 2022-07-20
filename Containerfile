@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 ARG CONTAINER_USER=esp
 ARG CONTAINER_GROUP=esp
 ARG TOOLCHAIN_VERSION=1.61.0.0
-ARG ESP_IDF_VERSION=release/v4.4
+ARG ESP_IDF_VERSION="release/v4.4"
 ARG ESP_BOARD=esp32c3
 ARG INSTALL_RUST_TOOLCHAIN=install-rust-toolchain.sh
 
@@ -33,7 +33,7 @@ ADD --chown=${CONTAINER_USER}:${CONTAINER_GROUP} \
 
 RUN chmod a+x ${INSTALL_RUST_TOOLCHAIN} \
     && ./${INSTALL_RUST_TOOLCHAIN} \
-    --extra-crates "cargo-espflash ldproxy" \
+    --extra-crates "ldproxy cargo-espflash" \
     --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh \
     --esp-idf-version "release/v4.4" \
     --minified-esp-idf "YES" \

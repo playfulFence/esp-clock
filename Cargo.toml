@@ -21,7 +21,6 @@ opt-level = "z"
 [features]
 default = [ "esp32s2_ili9341" ]
 # default = [ "esp32c3_rust_board_ili9341" ]
-# default = [ "esp32_ili9341", "tcpstream_keyboard", "web_server" ]
 # default = [ "esp32s2_usb_otg" ]
 # default = [ "esp32s2_usb_otg", "tcpstream_keyboard" ]
 # default = [ "kaluga_ili9341", "tcpstream_keyboard" ]
