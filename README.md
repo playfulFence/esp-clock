@@ -43,7 +43,7 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 ### ESP32-С3-RUST-BOARD with ILI9341 display
 
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52229608944/in/dateposted-public/" title="ESP-RUST-BOARD and ILI9341 connected"><img src="https://live.staticflickr.com/65535/52229608944_96a2c58072_o.png" width="500" height="477" alt="ESP-RUST-BOARD and ILI9341 connected"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52229608944/in/dateposted-public/" title="ESP-RUST-BOARD and ILI9341 connected"><img src="https://live.staticflickr.com/65535/52229608944_96a2c58072_o.png" width="500" height="477" alt="ESP-RUST-BOARD and ILI9341 connected"></a>
 
 
 >### [Corresponding Wokwi project](https://wokwi.com/projects/336529450034266706)
