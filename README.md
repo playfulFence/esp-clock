@@ -20,9 +20,10 @@ On-board sensors will be used.
 
 <br>
 
-` ### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging. 
-### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD 
-`
+
+>### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging. 
+>### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD since this project is dedicated to it
+
 <br>
 
 ## Hardware
@@ -53,4 +54,6 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 - Enable `esp32c3_rust_board_ili9341` feature if you want to use RUST-BOARD and it's on-board sensors 
 - Enable `esp32c3_ili9341` if you're using board with `C3` chip (including RUST-BOARD) **OR** if you want to use  **MQTT** to receive temperature and humidity 
+
+to be continued... (*JoJo final song*)
 
