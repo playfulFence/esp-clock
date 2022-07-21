@@ -21,8 +21,9 @@ On-board sensors will be used.
 <br>
 
 
->### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging. 
->### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD since this project is dedicated to it
+:heavy_exclamation_mark: ### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging to revceive data from RUST-BOARD, which is measuring temperature and humidity
+### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD since this project is dedicated to it
+
 
 <br>
 
@@ -58,7 +59,7 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 ## Dev Containers
 This repository offers Dev Containers supports for:
 -  [Gitpod](https://gitpod.io/)
-   - ["Open in Gitpod" button](https://www.gitpod.io/docs/getting-started#open-in-gitpod-button)
+   - [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/playfulFence/esp-clock)
 -  [VS Code Dev Containers](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
 -  [GitHub Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace)
 > **Note**
