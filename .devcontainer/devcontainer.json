@@ -1,25 +1,14 @@
-
 {
-  "name": "esp-clock",
+  "name": "esp_clock",
   // Select between image and build propieties to pull or build the image.
-  // "image": "docker.io/espressif/idf-rust:{{ mcu }}
-  // {%- if espidfver == "mainline" -%}
-  // _master_1.61.0.0",
-  // {%- else -%}
-  // _v4.4_1.61.0.0",
-  // {%- endif %}
+  // "image": "docker.io/espressif/idf-rust:esp32c3_v4.4_1.62.0.0",
   "build": {
-    "dockerfile": "../Containerfile",
+    "dockerfile": "Dockerfile",
     "args": {
       "CONTAINER_USER": "esp",
       "CONTAINER_GROUP": "esp",
-      "ESP_IDF_VERSION": "release/v4.4",
+      "ESP_IDF_VERSION":"release/v4.4",
       "ESP_BOARD": "esp32c3"
-      // {%- if espidfver == "mainline" -%}
-      // "master",
-      // {%- else -%}
-      // "release/v4.4",
-      // {%- endif %}
     }
   },
   "settings": {
@@ -51,6 +40,6 @@
     9333,
     8000
   ],
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/workspace ,type=bind,consistency=cached",
-  "workspaceFolder": "/home/esp/workspace/"
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/esp_clock,type=bind,consistency=cached",
+  "workspaceFolder": "/home/esp/esp_clock"
 }
