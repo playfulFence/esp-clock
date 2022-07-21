@@ -5,11 +5,11 @@ set -e
 BUILD_MODE=""
 case "$1" in
     ""|"release")
-        bash build.sh
+        bash scripts/build.sh
         BUILD_MODE="release"
         ;;
     "debug")
-        bash build.sh debug
+        bash scripts/build.sh debug
         BUILD_MODE="debug"
         ;;
     *)
@@ -17,11 +17,6 @@ case "$1" in
         exit 1;;
 esac
 
-export ESP_ARCH=
-{%- if mcu == "esp32c3" -%}
-riscv32imc-esp-espidf
-{%- else -%}
-xtensa-{{ mcu }}-espidf
-{%- endif %}
+export ESP_ARCH=riscv32imc-esp-espidf
 
-web-flash --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp32c3
+web-flash --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
