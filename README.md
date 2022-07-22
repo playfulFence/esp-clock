@@ -1,4 +1,4 @@
-# esp-clock
+# esp-clock :crab:
 
 ## Description
 
@@ -21,8 +21,8 @@ On-board sensors will be used.
 <br>
 
 
-:heavy_exclamation_mark: ### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging to revceive data from RUST-BOARD, which is measuring temperature and humidity
-### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD since this project is dedicated to it
+>### **Important** : every configuration other than `esp32c3_rust_board_ili9341` requires Wi-Fi connection and uses MQTT messaging to revceive data from RUST-BOARD, which is measuring temperature and humidity
+>### MQTT measurements sender is implemented [here](https://github.com/playfulFence/esp32-mqtt-publish) also by myself and of course it's also for RUST-BOARD since this project is dedicated to it
 
 
 <br>
@@ -53,8 +53,28 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 ## Features
 
-- Enable `esp32c3_rust_board_ili9341` feature if you want to use RUST-BOARD and it's on-board sensors 
-- Enable `esp32c3_ili9341` if you're using board with `C3` chip (including RUST-BOARD) **OR** if you want to use  **MQTT** to receive temperature and humidity 
+- Enable `esp32c3_rust_board_ili9341` feature if you want to use RUST-BOARD and it's on-board sensors with `ili9341` display
+- Enable `esp32c3_ili9341` if you're using `ESP32-C3` board and `ili9341` display **OR** if you want to use RUST-BOARD with **MQTT-messaging** to receive temperature and humidity from another RUST-BOARD
+- Enable `esp32s3_ili9341` if you're using `ESP32-S3` board and `ili9341` display
+- Enable `esp32s2_ili9341` if you're using `ESP32-S2` board and `ili9341` display
+- Enable `esp32s3_usb_otg` if you're using `ESP32-S3-USB-OTG` board and `ili9341` display
+> **Warning**
+>
+>  Not optimized yet.
+- Enable `esp32s2_usb_otg` if you're using `ESP32-S2-USB-OTG` board and `ili9341` display
+> **Warning**
+>
+>  Not optimized yet.
+
+<br>
+
+## Plans
+- [ ] Make some kind of a monitoring system with the ability to place several sensors(RUST-BOARDS) over the room/building/whatever
+- [ ] Optimize project for other targets (`ESP32-S3-BOX`, `ESP32-S2-Kaluga-1`, `ESP32-S2-HMI-DevKit-1`)
+- [ ] [Grafana](https://grafana.com) integration :bar_chart:
+- [ ] [Slint](https://slint-ui.com) integration :pager:
+
+<br>
 
 ## Dev Containers
 This repository offers Dev Containers supports for:
