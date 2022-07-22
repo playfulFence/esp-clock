@@ -27,8 +27,6 @@ On-board sensors will be used.
 
 ## Hardware
 
-<br>
-
 ### ESP32-C3-RUST-BOARD
 The basic use case for this project involves the use of a RUST-BOARD and [ILI9341](https://cdn-shop.adafruit.com/datasheets/ILI9341.pdf) display.
 
