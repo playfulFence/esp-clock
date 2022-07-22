@@ -1,7 +1,5 @@
 # esp-clock :crab:
 
-## Description
-
 This project was inspired by the similar project for STM32F103C8: 
 https://github.com/TeXitoi/rusty-clock
 
@@ -28,7 +26,9 @@ On-board sensors will be used.
 <br>
 
 ## Hardware
----
+
+<br>
+
 ### ESP32-C3-RUST-BOARD
 The basic use case for this project involves the use of a RUST-BOARD and [ILI9341](https://cdn-shop.adafruit.com/datasheets/ILI9341.pdf) display.
 
@@ -191,4 +191,3 @@ Wokwi offers debugging with GDB.
         - `esp` when using VS Code or GitHub Codespaces
         - `gitpod` when using Gitpod
 
-to be continued... (*JoJo final song*)
