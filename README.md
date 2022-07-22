@@ -25,14 +25,6 @@ On-board sensors will be used.
 
 <br>
 
-## Plans
-- [ ] Model a box :alarm_clock:
-- [ ] Make some kind of a monitoring system with the ability to place several sensors(RUST-BOARDS) over the room/building/whatever
-- [ ] Optimize project for other targets (`ESP32-S3-BOX`, `ESP32-S2-Kaluga-1`, `ESP32-S2-HMI-DevKit-1`)
-- [ ] [Grafana](https://grafana.com) integration :bar_chart:
-- [ ] [Slint](https://slint-ui.com) integration :pager:
-
-<br>
 
 ## Hardware
 
@@ -72,6 +64,15 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 > **Warning**
 >
 >  Not optimized yet.
+
+<br>
+
+## Plans
+- [ ] Model a box :alarm_clock:
+- [ ] Make some kind of a monitoring system with the ability to place several sensors(RUST-BOARDS) over the room/building/whatever
+- [ ] Optimize project for other targets (`ESP32-S3-BOX`, `ESP32-S2-Kaluga-1`, `ESP32-S2-HMI-DevKit-1`)
+- [ ] [Grafana](https://grafana.com) integration :bar_chart:
+- [ ] [Slint](https://slint-ui.com) integration :pager:
 
 <br>
 
