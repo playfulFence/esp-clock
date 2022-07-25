@@ -592,8 +592,7 @@ pub(crate) fn esp32c3_create_display_ili9341(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::Landscape,
-        // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
+        KalugaOrientation::LandscapeFlipped,
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }

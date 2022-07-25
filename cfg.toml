@@ -1,6 +1,6 @@
 [esp-clock]
 mqtt_user = "esp-clock"
 broker_url = "mqtt://broker.hivemq.com:1883"
-wifi_ssid = "Is_it_JoJo_reference?"
-wifi_pass = "WRYYYYYY"
+wifi_ssid = "Wokwi-GUEST"
+wifi_pass = ""
 topic_name = "default_topic_name" 
