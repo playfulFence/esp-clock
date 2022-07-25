@@ -77,7 +77,7 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 ## Dev Containers
 This repository offers Dev Containers supports for:
 -  [Gitpod](https://gitpod.io/)
-   - [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/playfulFence/esp-clock/tree/gitpod-wokwi-simulation)
+   - [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/playfulFence/esp-clock/tree/gitpod-wokwi-simulation)
 -  [VS Code Dev Containers](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
 -  [GitHub Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace)
 > **Note**
