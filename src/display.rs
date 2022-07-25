@@ -154,13 +154,13 @@ macro_rules! create {
 
         #[cfg(any(feature = "esp32c3_ili9341", feature = "esp32c3_rust_board_ili9341"))]
         let result = display::esp32c3_create_display_ili9341(
-            $peripherals.pins.gpio0,
-            $peripherals.pins.gpio21,
+            $peripherals.pins.gpio4,
             $peripherals.pins.gpio3,
+            $peripherals.pins.gpio10,
             $peripherals.spi2,
             $peripherals.pins.gpio6,
             $peripherals.pins.gpio7,
-            $peripherals.pins.gpio20,
+            $peripherals.pins.gpio2,
         );
         
 
@@ -510,13 +510,13 @@ pub(crate) fn esp32s3_create_display_ili9341(
 
 #[cfg(any(feature = "esp32c3_ili9341", feature = "esp32c3_rust_board_ili9341"))]
 pub(crate) fn esp32c3_create_display_ili9341(
-    backlight: gpio::Gpio0<gpio::Unknown>,
-    dc: gpio::Gpio21<gpio::Unknown>, // 
-    rst: gpio::Gpio3<gpio::Unknown>, //
+    backlight: gpio::Gpio4<gpio::Unknown>,
+    dc: gpio::Gpio3<gpio::Unknown>,  
+    rst: gpio::Gpio10<gpio::Unknown>, 
     spi: spi::SPI2,
-    sclk: gpio::Gpio6<gpio::Unknown>, //
-    sdo: gpio::Gpio7<gpio::Unknown>,  //
-    cs: gpio::Gpio20<gpio::Unknown>, // -> 20
+    sclk: gpio::Gpio6<gpio::Unknown>, 
+    sdo: gpio::Gpio7<gpio::Unknown>,  
+    cs: gpio::Gpio2<gpio::Unknown>, 
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
@@ -524,13 +524,15 @@ pub(crate) fn esp32c3_create_display_ili9341(
                 spi::SPI2,
                 gpio::Gpio6<gpio::Output>,
                 gpio::Gpio7<gpio::Output>,
-                gpio::Gpio0<gpio::Input>,
-                gpio::Gpio20<gpio::Unknown>,
+                gpio::Gpio4<gpio::Input>,
+                gpio::Gpio2<gpio::Unknown>,
             >,
-            gpio::Gpio21<gpio::Output>,
+            gpio::Gpio3<gpio::Output>,
         >,
-        gpio::Gpio3<gpio::Output>,
+        gpio::Gpio10<gpio::Output>,  
     >,
+    /* Use this if you want to execute Wokwi simulation */
+    // 
 > {
     // Kaluga needs customized screen orientation commands
     // (not a surprise; quite a few ILI9341 boards need these as evidences in the TFT_eSPI & lvgl ESP32 C drivers)
@@ -551,7 +553,8 @@ pub(crate) fn esp32c3_create_display_ili9341(
                 Self::LandscapeVericallyFlipped => 0x20,
                 Self::Landscape => 0x20 | 0x40,
                 Self::PortraitFlipped => 0x80 | 0x40,
-                Self::LandscapeFlipped => 0x80 | 0x20,
+                /* this is used for Wokwi simulation, "| 0x08" is used to invert colors to correct */
+                Self::LandscapeFlipped => 0x80 | 0x20 | 0x08, 
             }
         }
 
@@ -575,7 +578,7 @@ pub(crate) fn esp32c3_create_display_ili9341(
             spi::Pins {
                 sclk: sclk.into_output()?,
                 sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio0<gpio::Input>>::None,
+                sdi: Option::<gpio::Gpio4<gpio::Input>>::None,
                 cs: Some(cs),
             },
             config,
@@ -589,7 +592,8 @@ pub(crate) fn esp32c3_create_display_ili9341(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::Landscape, // fixed : earlier was LandscapeVerticallyFlipped
+        KalugaOrientation::Landscape,
+        // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }
