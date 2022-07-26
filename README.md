@@ -1,17 +1,16 @@
 # esp-clock :crab:
 
-This project was inspired by the similar project for STM32F103C8: 
-https://github.com/TeXitoi/rusty-clock
+This project was inspired by the [rusty-clock](https://github.com/TeXitoi/rusty-clock) project
+
 
 The initial goal of the project was just to implement clocks with brand new ESP32-C3-RUST-BOARD, but over time, new ideas and more use cases began to appear.
 
-Generally, project is created to demonstrate the capabilities of the new board in the Rust language,
-so you have to possibilites how to run this project:
+Generally, project is created to demonstrate the capabilities of the new board in the Rust language, but now I've taken the direction to create a monitoring system based on the RUST-BOARD, so ch
+so you have two possibilites how to run this project:
 
 * On the RUST-BOARD itself, enabling the `esp32c3_rust_board_ili9341` feature, in `Cargo.toml` file.
 On-board sensors will be used.
 * Using another chip (list of availible configurations somewhere below), activating the corresponding feature in `Cargo.toml` file.
-
 
 >You can learn more about RUST-BOARD [here](https://github.com/esp-rs/esp-rust-board)
 
@@ -42,8 +41,10 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 ### ESP32-С3-RUST-BOARD with ILI9341 display
 
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52229608944/in/dateposted-public/" title="ESP-RUST-BOARD and ILI9341 connected"><img src="https://live.staticflickr.com/65535/52229608944_96a2c58072_o.png" width="500" height="477" alt="ESP-RUST-BOARD and ILI9341 connected"></a>
 
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242796290/in/dateposted-public/" title="esp-clock_esp-rs-logo"><img src="https://live.staticflickr.com/65535/52242796290_71cf2364e2_o.png" width="550" height="543" alt="esp-clock_esp-rs-logo"></a>
+
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242317203/in/dateposted-public/" title="esp-clock_working"><img src="https://live.staticflickr.com/65535/52242317203_4c06ea1c69_o.png" width="550" height="543" alt="esp-clock_working"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 
 >### [Corresponding Wokwi project](https://wokwi.com/projects/336529450034266706)
 
