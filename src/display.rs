@@ -132,13 +132,13 @@ macro_rules! create {
 
         #[cfg(feature = "esp32s2_ili9341")]
         let result = display::esp32s2_create_display_ili9341(
-            $peripherals.pins.gpio20,
-            $peripherals.pins.gpio1,
-            $peripherals.pins.gpio0,
+            $peripherals.pins.gpio6,
+            $peripherals.pins.gpio2,
+            $peripherals.pins.gpio4,
             $peripherals.spi2,
-            $peripherals.pins.gpio8,
-            $peripherals.pins.gpio21,
-            $peripherals.pins.gpio9,
+            $peripherals.pins.gpio36,
+            $peripherals.pins.gpio35,
+            $peripherals.pins.gpio15,
         );
 
         #[cfg(feature = "esp32s3_ili9341")]
@@ -337,26 +337,26 @@ pub(crate) fn esp32_create_display_ili9341(
 
 #[cfg(feature = "esp32s2_ili9341")]
 pub(crate) fn esp32s2_create_display_ili9341(
-    backlight: gpio::Gpio20<gpio::Unknown>,
-    dc: gpio::Gpio1<gpio::Unknown>, // 
-    rst: gpio::Gpio0<gpio::Unknown>, //
+    backlight: gpio::Gpio6<gpio::Unknown>,
+    dc: gpio::Gpio2<gpio::Unknown>,
+    rst: gpio::Gpio4<gpio::Unknown>,
     spi: spi::SPI2,
-    sclk: gpio::Gpio8<gpio::Unknown>, //
-    sdo: gpio::Gpio21<gpio::Unknown>,  //
-    cs: gpio::Gpio9<gpio::Unknown>, // -> 20
+    sclk: gpio::Gpio36<gpio::Unknown>,
+    sdo: gpio::Gpio35<gpio::Unknown>,
+    cs: gpio::Gpio15<gpio::Unknown>,
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
             spi::Master<
                 spi::SPI2,
-                gpio::Gpio8<gpio::Output>,
-                gpio::Gpio21<gpio::Output>,
-                gpio::Gpio4<gpio::Input>,
-                gpio::Gpio9<gpio::Unknown>,
+                gpio::Gpio36<gpio::Output>,
+                gpio::Gpio35<gpio::Output>,
+                gpio::Gpio10<gpio::Input>,
+                gpio::Gpio15<gpio::Unknown>,
             >,
-            gpio::Gpio1<gpio::Output>,
+            gpio::Gpio2<gpio::Output>,
         >,
-        gpio::Gpio0<gpio::Output>,
+        gpio::Gpio4<gpio::Output>,
     >,
 > {
     // Kaluga needs customized screen orientation commands
@@ -387,7 +387,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
         }
     }
 
-    info!("About to initialize the ESP32C3 ILI9341 SPI LED driver");
+    info!("About to initialize the ESP32S2 ILI9341 SPI LED driver");
 
     let config = <spi::config::Config as Default>::default()
         .baudrate(40.MHz().into());
@@ -402,7 +402,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
             spi::Pins {
                 sclk: sclk.into_output()?,
                 sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio4<gpio::Input>>::None,
+                sdi: Option::<gpio::Gpio10<gpio::Input>>::None,
                 cs: Some(cs),
             },
             config,
@@ -416,7 +416,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::Landscape, // fixed : earlier was LandscapeVerticallyFlipped
+        KalugaOrientation::LandscapeVerticallyFlipped, // fixed : earlier was LandscapeVerticallyFlipped
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }

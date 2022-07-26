@@ -17,6 +17,6 @@ case "$1" in
         exit 1;;
 esac
 
-export ESP_ARCH=riscv32imc-esp-espidf
+export ESP_ARCH=xtensa-esp32s2-espidf
 
-web-flash --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
+web-flash --chip esp32s2 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock

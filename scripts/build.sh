@@ -13,10 +13,10 @@ fi
 
 case "$1" in
     ""|"release")
-        cargo build --features wifi --release
+        cargo +esp build --target xtensa-esp32s2-espidf --release
         ;;
     "debug")
-        cargo build --features wifi
+        cargo build
         ;;
     *)
         echo "Wrong argument. Only \"debug\"/\"release\" arguments are supported"

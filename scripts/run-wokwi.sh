@@ -26,10 +26,10 @@ elif [ "${CODESPACE_NAME}" != "" ]; then
     export WOKWI_HOST=${CODESPACE_NAME}-9012.githubpreview.dev
 fi
 
-export ESP_ARCH=riscv32imc-esp-espidf
+export ESP_ARCH=xtensa-esp32s2-espidf
 
 # TODO: Update with your Wokwi Project
-export WOKWI_PROJECT_ID="336529450034266706"
+export WOKWI_PROJECT_ID="338242570224140884"
 if [ "${WOKWI_PROJECT_ID}" == "" ]; then
     wokwi-server --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
 else

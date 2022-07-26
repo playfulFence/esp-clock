@@ -20,9 +20,9 @@ opt-level = "z"
 
 [features]
 # default = [ "esp32c3_rust_board_ili9341" ]
-default = [ "esp32c3_ili9341" ]
+# default = [ "esp32c3_ili9341" ]
 # default = [ "esp32s3_ili9341" ]
-# default = [ "esp32s2_ili9341" ]
+default = [ "esp32s2_ili9341" ]
 # default = [ "esp32s3_usb_otg" ]
 # default = [ "esp32s2_usb_otg" ]
 # default = [ "esp32_ili9341" ]
@@ -98,5 +98,5 @@ esp-idf-hal = { git = "https://github.com/esp-rs/esp-idf-hal", branch = "bugfix/
 
 
 [build-dependencies]
-embuild = "0.28.5"
+embuild = "0.30.1"
 anyhow = "1.0.50"
