@@ -41,13 +41,10 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 ### ESP32-С3-RUST-BOARD with ILI9341 display
 
-
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242796290/in/dateposted-public/" title="esp-clock_esp-rs-logo"><img src="https://live.staticflickr.com/65535/52242796290_71cf2364e2_o.png" width="550" height="543" alt="esp-clock_esp-rs-logo"></a>
-
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242317203/in/dateposted-public/" title="esp-clock_working"><img src="https://live.staticflickr.com/65535/52242317203_4c06ea1c69_o.png" width="550" height="543" alt="esp-clock_working"></a>
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52243062815/in/dateposted-public/" title="eep-clock_esp32s2"><img src="https://live.staticflickr.com/65535/52243062815_0486a3fdea_o.png" width="550" height="430" alt="eep-clock_esp32s2"></a>
 
 
->### [Corresponding Wokwi project](https://wokwi.com/projects/336529450034266706)
+>### [Corresponding Wokwi project](https://wokwi.com/projects/338242570224140884)
 
 <br>
 
