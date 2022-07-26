@@ -44,7 +44,8 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242796290/in/dateposted-public/" title="esp-clock_esp-rs-logo"><img src="https://live.staticflickr.com/65535/52242796290_71cf2364e2_o.png" width="550" height="543" alt="esp-clock_esp-rs-logo"></a>
 
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242317203/in/dateposted-public/" title="esp-clock_working"><img src="https://live.staticflickr.com/65535/52242317203_4c06ea1c69_o.png" width="550" height="543" alt="esp-clock_working"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/196173186@N08/52242317203/in/dateposted-public/" title="esp-clock_working"><img src="https://live.staticflickr.com/65535/52242317203_4c06ea1c69_o.png" width="550" height="543" alt="esp-clock_working"></a>
+
 
 >### [Corresponding Wokwi project](https://wokwi.com/projects/336529450034266706)
 
