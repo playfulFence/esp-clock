@@ -378,7 +378,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
                 Self::LandscapeVericallyFlipped => 0x20,
                 Self::Landscape => 0x20 | 0x40,
                 Self::PortraitFlipped => 0x80 | 0x40,
-                Self::LandscapeFlipped => 0x80 | 0x20,
+                Self::LandscapeFlipped => 0x80 | 0x20 | 0x08,
             }
         }
 
@@ -416,7 +416,7 @@ pub(crate) fn esp32s2_create_display_ili9341(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::LandscapeVerticallyFlipped, // fixed : earlier was LandscapeVerticallyFlipped
+        KalugaOrientation::LandscapeFlipped, // fixed : earlier was LandscapeVerticallyFlipped
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }

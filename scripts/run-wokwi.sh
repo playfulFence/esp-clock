@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ #!/usr/bin/env bash
 
 set -e
 
@@ -31,7 +31,7 @@ export ESP_ARCH=xtensa-esp32s2-espidf
 # TODO: Update with your Wokwi Project
 export WOKWI_PROJECT_ID="338242570224140884"
 if [ "${WOKWI_PROJECT_ID}" == "" ]; then
-    wokwi-server --chip esp32c3 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
+    wokwi-server --chip esp32s2 target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
 else
-    wokwi-server --chip esp32c3 --id ${WOKWI_PROJECT_ID} target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
+    wokwi-server --chip esp32s2 --id ${WOKWI_PROJECT_ID} target/${ESP_ARCH}/${BUILD_MODE}/esp-clock
 fi
