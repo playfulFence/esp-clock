@@ -25,6 +25,7 @@ On-board sensors will be used.
 
 <br>
 
+
 ## Hardware
 
 ### ESP32-C3-RUST-BOARD
@@ -67,6 +68,7 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 <br>
 
 ## Plans
+- [ ] Model a box :alarm_clock:
 - [ ] Make some kind of a monitoring system with the ability to place several sensors(RUST-BOARDS) over the room/building/whatever
 - [ ] Optimize project for other targets (`ESP32-S3-BOX`, `ESP32-S2-Kaluga-1`, `ESP32-S2-HMI-DevKit-1`)
 - [ ] [Grafana](https://grafana.com) integration :bar_chart:
@@ -77,7 +79,7 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 ## Dev Containers
 This repository offers Dev Containers supports for:
 -  [Gitpod](https://gitpod.io/)
-   - [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/playfulFence/esp-clock)
+   - [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/playfulFence/esp-clock/tree/gitpod-wokwi-simulation)
 -  [VS Code Dev Containers](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
 -  [GitHub Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace)
 > **Note**
