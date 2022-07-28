@@ -68,6 +68,11 @@ The basic use case for this project involves the use of a RUST-BOARD and [ILI934
 
 <br>
 
+>### **Important** : If you using any configuration with Wi-Fi, it will set time automatically. Also, if you're using `esp32c3_rust_board_ili9341` configuration and you want to enable Wi-Fi time setting - just add `--features wifi` to execution command. Otherwise, you will need to set the time manually at [THESE](https://github.com/playfulFence/esp-clock/blob/main/src/main.rs#L149-L157) lines of code
+
+
+<br>
+
 ## Plans
 - [ ] Model a box :alarm_clock:
 - [ ] Make some kind of a monitoring system with the ability to place several sensors(RUST-BOARDS) over the room/building/whatever
