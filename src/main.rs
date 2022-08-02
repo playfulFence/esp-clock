@@ -362,6 +362,8 @@ fn main() -> Result<()>
                     let mut rawTime = OffsetDateTime::from_unix_timestamp(timestamp as i64)?
                                                     .to_offset(offset!(+2));
 
+                    stupid_temp_counter = stupid_temp_counter - 1;
+
                     timeFlush(
                         &mut dp, 
                         &rawTime.time().to_string()[0..(rawTime.time().to_string().len() - 2)].to_string(),

@@ -19,8 +19,8 @@ opt-level = "z"
 #opt-level = "s"
 
 [features]
-default = [ "esp32c3_rust_board_ili9341" ]
-# default = [ "esp32c3_ili9341" ]
+#default = [ "esp32c3_rust_board_ili9341" ]
+default = [ "esp32c3_ili9341" ]
 # default = [ "esp32s3_ili9341" ]
 # default = [ "esp32s2_ili9341" ]
 # default = [ "esp32s3_usb_otg" ]
@@ -68,7 +68,7 @@ wifi = []
 anyhow                  = { version = "1", features = ["backtrace"] }
 log                     = "0.4"
 esp-idf-sys             = { version = "0.31.6", features = ["binstart"] }
-esp-idf-svc             = "0.42.0"
+esp-idf-svc             = "0.42.1"
 esp-idf-hal             = "0.38.0"
 embedded-svc            = "0.22.0"
 embedded-hal            = "0.2.7"
