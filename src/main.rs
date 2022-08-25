@@ -1,4 +1,3 @@
-
 use std::sync::mpsc::channel;
 use std::{thread, time::*, ptr, string::String};
 use std::str;
@@ -17,19 +16,16 @@ use esp_idf_sys::*;
 
 // Time stuff
 use embedded_svc::sys_time::SystemTime;
-use embedded_svc::timer::TimerService;
-use embedded_svc::timer::*;
-use esp_idf_svc::timer::*;
 use esp_idf_svc::systime::EspSystemTime;
 
-
-use time::{OffsetDateTime, format_description};
+use time::OffsetDateTime;
 use time::macros::offset;
-use time::Date;
+
+use esp_idf_svc::sntp;
+use esp_idf_svc::sntp::SyncStatus;
 
 // Graphic part
-use embedded_graphics::geometry::AnchorPoint;
-use embedded_graphics::mono_font::{ MonoTextStyle };
+use embedded_graphics::mono_font::MonoTextStyle;
 use embedded_graphics::pixelcolor::*;
 use embedded_graphics::prelude::*;
 use embedded_graphics::primitives::*;
@@ -138,31 +134,56 @@ fn main() -> Result<()>
             )?;
 
             wifi_connecting(&mut dp, true, display::color_conv);
+
+            
         }
     }
    
     /* Unsafe section is used since it's required, if you're using C functions and datatypes */
     unsafe{
 
-        /* If you choose non-wifi time method, you should set it manually */
-        let mut tmInit : esp_idf_sys::tm = esp_idf_sys::tm{
-            tm_sec: 0 as esp_idf_sys::c_types::c_int,
-            tm_min: 52 as esp_idf_sys::c_types::c_int, 
-            tm_hour: 19 as esp_idf_sys::c_types::c_int, 
-            tm_mday: 28 as esp_idf_sys::c_types::c_int, 
-            tm_mon: 5 as esp_idf_sys::c_types::c_int,  // starts with 0 
-            tm_year: (2022  - 1900) as esp_idf_sys::c_types::c_int,
-            tm_wday: 4 as esp_idf_sys::c_types::c_int,
-            tm_yday: 179 as esp_idf_sys::c_types::c_int,
-            tm_isdst: 0 as esp_idf_sys::c_types::c_int,
-        };
+        cfg_if::cfg_if! {
+            if #[cfg(feature = "wifi")] {
+                let sntp = sntp::EspSntp::new_default()?;
+                info!("SNTP initialized, waiting for status!");
 
-        let tmRef: &mut esp_idf_sys::tm = &mut tmInit;
+                while sntp.get_sync_status() != SyncStatus::Completed {}
 
-        let time : esp_idf_sys::time_t = esp_idf_sys::mktime(tmRef);
-        
-        let mut actual_date = OffsetDateTime::from_unix_timestamp(time as i64)?
-                                        .date();
+                info!("SNTP status received!");
+
+                let timer: *mut time_t = ptr::null_mut();
+                
+                let mut timestamp = esp_idf_sys::time(timer);
+
+                let mut actual_date = OffsetDateTime::from_unix_timestamp(timestamp as i64)?
+                                                .to_offset(offset!(+2))
+                                                .date();
+
+                info!("{} - {} - {}", actual_date.to_calendar_date().2, actual_date.to_calendar_date().1, actual_date.to_calendar_date().0);
+     
+            }
+            else {
+                /* If you choose non-wifi time method, you should set it manually */
+                let mut tmInit : esp_idf_sys::tm = esp_idf_sys::tm{
+                    tm_sec: 0 as esp_idf_sys::c_types::c_int,
+                    tm_min: 52 as esp_idf_sys::c_types::c_int, 
+                    tm_hour: 19 as esp_idf_sys::c_types::c_int, 
+                    tm_mday: 28 as esp_idf_sys::c_types::c_int, 
+                    tm_mon: 5 as esp_idf_sys::c_types::c_int,  // starts with 0 
+                    tm_year: (2022  - 1900) as esp_idf_sys::c_types::c_int,
+                    tm_wday: 4 as esp_idf_sys::c_types::c_int,
+                    tm_yday: 179 as esp_idf_sys::c_types::c_int,
+                    tm_isdst: 0 as esp_idf_sys::c_types::c_int,
+                };
+
+                let tmRef: &mut esp_idf_sys::tm = &mut tmInit;
+
+                let timestamp : esp_idf_sys::time_t = esp_idf_sys::mktime(tmRef);
+                
+                let mut actual_date = OffsetDateTime::from_unix_timestamp(timestamp as i64)?
+                                                .date();
+            }
+        }
 
         let mut date_str = format!("{}-{}-{}", actual_date.to_calendar_date().2, 
                                                        actual_date.to_calendar_date().1,
@@ -297,43 +318,76 @@ fn main() -> Result<()>
     
         loop
         {
-            if (EspSystemTime{}.now().as_secs() as u64 != time_buf) {
-                time_buf = EspSystemTime{}.now().as_secs() as u64;
-                now = time as u64 + EspSystemTime{}.now().as_secs() as u64;
+            cfg_if::cfg_if! {
+                if #[cfg(not(feature = "wifi"))] {
+                    now = timestamp as u64 + EspSystemTime{}.now().as_secs() as u64;
 
-                stupid_temp_counter = stupid_temp_counter - 1;
+                    stupid_temp_counter = stupid_temp_counter - 1;
 
-                info!("About to convert {} UNIX-timestamp to date-time fmt...", now);
+                    info!("About to convert {} UNIX-timestamp to date-time fmt...", now);
 
-                // let accel_norm = icm.accel_norm().unwrap(); // TBD
-                // let gyro_norm = icm.gyro_norm().unwrap();
+                    // let accel_norm = icm.accel_norm().unwrap(); // TBD
+                    // let gyro_norm = icm.gyro_norm().unwrap();
 
-                let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?;
+                    let mut rawTime = OffsetDateTime::from_unix_timestamp(now as i64)?;
 
-                timeFlush(
-                    &mut dp, 
-                    &rawTime.time().to_string()[0..(rawTime.time().to_string().len() - 2)].to_string(),
-                    display::color_conv);
-
-
-                if actual_date != rawTime.date() {
-
-                    actual_date = rawTime.date();
-                    date_str = format!("{}-{}-{}", actual_date.to_calendar_date().2,
-                                                   actual_date.to_calendar_date().1, 
-                                                   actual_date.to_calendar_date().0);
-
-                    dateFlush(
-                        &mut dp,
-                        &date_str,
+                    timeFlush(
+                        &mut dp, 
+                        &rawTime.time().to_string()[0..(rawTime.time().to_string().len() - 2)].to_string(),
                         display::color_conv);
 
-                    weekdayFlush(
-                        &mut dp,
-                        &actual_date.weekday().to_string(),
-                        display::color_conv);
-                                        
+
+                    if actual_date != rawTime.date() {
+
+                        actual_date = rawTime.date();
+                        date_str = format!("{}-{}-{}", actual_date.to_calendar_date().2,
+                                                       actual_date.to_calendar_date().1, 
+                                                       actual_date.to_calendar_date().0);
+
+                        dateFlush(
+                            &mut dp,
+                            &date_str,
+                            display::color_conv);
+
+                        weekdayFlush(
+                            &mut dp,
+                            &actual_date.weekday().to_string(),
+                            display::color_conv);
+                    }
                 }
+                else {
+                    timestamp = esp_idf_sys::time(timer);
+
+                    let mut rawTime = OffsetDateTime::from_unix_timestamp(timestamp as i64)?
+                                                    .to_offset(offset!(+2));
+
+                    stupid_temp_counter = stupid_temp_counter - 1;
+
+                    timeFlush(
+                        &mut dp, 
+                        &rawTime.time().to_string()[0..(rawTime.time().to_string().len() - 2)].to_string(),
+                        display::color_conv);
+
+                        if actual_date != rawTime.date() {
+
+                        actual_date = rawTime.date();
+                        date_str = format!("{}-{}-{}", actual_date.to_calendar_date().2,
+                                                       actual_date.to_calendar_date().1, 
+                                                       actual_date.to_calendar_date().0);
+
+                        dateFlush(
+                            &mut dp,
+                            &date_str,
+                            display::color_conv);
+
+                        weekdayFlush(
+                            &mut dp,
+                            &actual_date.weekday().to_string(),
+                            display::color_conv);
+                    }
+
+                }
+            }
 
                 if (stupid_temp_counter == 0) {
 
@@ -399,9 +453,9 @@ fn main() -> Result<()>
 
                     stupid_temp_counter = MEASUREMENT_DELAY;
                 }   
-            }  
+            thread::sleep(Duration::from_secs(1));
         }
-    }
+    } // unsafe section
     Ok(())
 }
 
@@ -462,7 +516,7 @@ fn weekdayFlush<D>(display: &mut D, toPrint: &String, color_conv: fn(ZXColor, ZX
 where
     D: DrawTarget + Dimensions,
 {
-    Rectangle::with_center(display.bounding_box().center() - Size::new(0, 20), Size::new(120, 30))
+    Rectangle::with_center(display.bounding_box().center() - Size::new(0, 20), Size::new(140, 30))
         .into_styled(
             PrimitiveStyleBuilder::new()
                 .fill_color(color_conv(ZXColor::White, ZXBrightness::Normal))
