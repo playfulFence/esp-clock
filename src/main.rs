@@ -258,9 +258,7 @@ fn main() -> Result<()>
                 // Note that when using the alternative constructor - `EspMqttClient::new` - you don't need to
                 // spawn a new thread, as the messages will be pumped with a backpressure into the callback you provide.
                 // Yet, you still need to efficiently process each message in the callback without blocking for too long.
-                //
-                // Note also that if you go to http://tools.emqx.io/ and then connect and send a message to topic
-                // "rust-esp32-std-demo", the client configured here should receive it.
+               
 
                 thread::spawn(move || {
                     info!("MQTT Listening for messages");
