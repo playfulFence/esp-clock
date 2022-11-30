@@ -32,6 +32,7 @@ use embedded_graphics::prelude::*;
 use embedded_graphics::primitives::*;
 use embedded_graphics::text::*;
 use embedded_graphics::image::Image;
+use display_interface_spi::SPIInterfaceNoCS;
 
 // Fonts and image
 use profont::{PROFONT_24_POINT, PROFONT_18_POINT};
@@ -43,11 +44,18 @@ use shared_bus::BusManagerSimple;
 use shtcx::{shtc3, LowPower, PowerMode, ShtC3};
 
 // Wi-Fi
+use embedded_svc::ping::Ping;
 use embedded_svc::wifi::*;
-use esp_idf_svc::netif::EspNetifStack;
-use esp_idf_svc::nvs::EspDefaultNvs;
-use esp_idf_svc::sysloop::EspSysLoopStack;
-use esp_idf_svc::wifi::EspWifi;
+use embedded_svc::eth::*;
+use esp_idf_svc::eventloop::*;
+use esp_idf_svc::httpd as idf;
+use esp_idf_svc::httpd::ServerRegistry;
+use esp_idf_svc::mqtt::client::*;
+use esp_idf_svc::netif::*;
+use esp_idf_svc::nvs::*;
+use esp_idf_svc::ping;
+use esp_idf_svc::timer::*;
+use esp_idf_svc::wifi::*;
 use std::sync::Arc;
 
 // MQTT
@@ -56,6 +64,8 @@ use esp_idf_svc::{
     mqtt::client::*,
 };
 use embedded_svc::mqtt::client::{Client, Connection, MessageImpl, Publish, QoS, Event::*, Message};
+
+use embedded_hal::digital::v2::OutputPin;
 
 // RustZX spectrum stuff 
 use rustzx_core::zx::video::colors::ZXBrightness;
@@ -87,6 +97,31 @@ pub struct Config {
 
 const MEASUREMENT_DELAY: i32 = 10;
 
+pub enum KalugaOrientation {
+    Portrait,
+    PortraitFlipped,
+    Landscape,
+    LandscapeVericallyFlipped,
+    LandscapeFlipped,
+}
+
+impl ili9341::Mode for KalugaOrientation {
+    fn mode(&self) -> u8 {
+        match self {
+            Self::Portrait => 0,
+            Self::LandscapeVericallyFlipped => 0x20,
+            Self::Landscape => 0x20 | 0x40,
+            Self::PortraitFlipped => 0x80 | 0x40,
+            /* this is used for Wokwi simulation, "| 0x08" is used to invert colors to correct */
+            Self::LandscapeFlipped => 0x80 | 0x20 | 0x08, 
+        }
+    }
+
+    fn is_landscape(&self) -> bool {
+        matches!(self, Self::Landscape | Self::LandscapeFlipped | Self::LandscapeVericallyFlipped)
+    }
+}
+
 fn main() -> Result<()> 
 {
     esp_idf_sys::link_patches();
@@ -102,7 +137,9 @@ fn main() -> Result<()>
 
     // Set up peripherals and display
     let peripherals = Peripherals::take().unwrap();
+    let sysloop = EspSystemEventLoop::take()?;
     let mut dp = display::create!(peripherals)?;
+
 
     show_logo(&mut dp);
     wifi_image(&mut dp, false, display::color_conv);
@@ -120,19 +157,13 @@ fn main() -> Result<()>
             wifi_connecting(&mut dp, false, display::color_conv);
 
             /* Setup some stuff for WiFi initialization */
-            let netif_stack = Arc::new(EspNetifStack::new()?);
-            let sys_loop_stack = Arc::new(EspSysLoopStack::new()?);
-            let default_nvs = Arc::new(EspDefaultNvs::new()?);
+            // let netif_stack = Arc::new(EspNetif::new(NetifStack::Sta.default_configuration())?);
+            // let sys_loop_stack = Arc::new(EspSystemEventLoop);
+            // let default_nvs = Arc::new(EspDefaultNvs::new()?);
         
             info!("About to initialize WiFi (SSID: {}, PASS: {})", app_config.wifi_ssid, app_config.wifi_pass);
 
-            let _wifi = wifi(
-                netif_stack.clone(),
-                sys_loop_stack.clone(),
-                default_nvs.clone(),
-                app_config.wifi_ssid,
-                app_config.wifi_pass,
-            )?;
+            let mut wifi = wifi(peripherals.modem, sysloop.clone(), app_config.wifi_ssid, app_config.wifi_pass);
 
             wifi_connecting(&mut dp, true, display::color_conv);
 
@@ -157,7 +188,7 @@ fn main() -> Result<()>
                 let mut timestamp = esp_idf_sys::time(timer);
 
                 let mut actual_date = OffsetDateTime::from_unix_timestamp(timestamp as i64)?
-                                                .to_offset(offset!(+2))
+                                                .to_offset(offset!(+1))
                                                 .date();
 
                 info!("{} - {} - {}", actual_date.to_calendar_date().2, actual_date.to_calendar_date().1, actual_date.to_calendar_date().0);
@@ -628,41 +659,80 @@ where
 
 
 fn wifi(
-    netif_stack: Arc<EspNetifStack>,
-    sys_loop_stack: Arc<EspSysLoopStack>,
-    default_nvs: Arc<EspDefaultNvs>,
-    wifi_ssid : &str,
-    wifi_password :&str,
-) -> anyhow::Result<Box<EspWifi>> {
-    let mut wifi = Box::new(EspWifi::new(netif_stack, sys_loop_stack, default_nvs)?);
+    modem: impl peripheral::Peripheral<P = esp_idf_hal::modem::Modem> + 'static,
+    sysloop: EspSystemEventLoop,
+    wifi_ssid : &str, 
+    wifi_password : &str, 
+) -> Result<Box<EspWifi<'static>>> {
+    use std::net::Ipv4Addr;
 
-    wifi.set_configuration(&Configuration::Client(ClientConfiguration {
-        ssid: wifi_ssid.into(),
-        password: wifi_password.into(),
-        auth_method: AuthMethod::None,
-        ..Default::default()
-    }))?;
+    use esp_idf_svc::handle::RawHandle;
 
-    println!("Wifi configuration set, about to get status");
+    let mut wifi = Box::new(EspWifi::new(modem, sysloop.clone(), None)?);
 
-    wifi.wait_status_with_timeout(Duration::from_secs(20), |status| !status.is_transitional())
-        .map_err(|e| anyhow::anyhow!("Unexpected Wifi status: {:?}", e))?;
+    info!("Wifi created, about to scan");
 
-    info!("to get status");
-    let status = wifi.get_status();
+    let ap_infos = wifi.scan()?;
 
-    info!("got status)");
-    if let Status(
-        ClientStatus::Started(ClientConnectionStatus::Connected(ClientIpStatus::Done(
-            _ip_settings,
-        ))),
-        _,
-    ) = status
-    {
-        println!("Wifi connected");
+    let ours = ap_infos.into_iter().find(|a| a.ssid == wifi_ssid);
+
+    let channel = if let Some(ours) = ours {
+        info!(
+            "Found configured access point {} on channel {}",
+            wifi_ssid, ours.channel
+        );
+        Some(ours.channel)
     } else {
-        bail!("Unexpected Wifi status: {:?}", status);
+        info!(
+            "Configured access point {} not found during scanning, will go with unknown channel",
+            wifi_ssid
+        );
+        None
+    };
+
+    wifi.set_configuration(&Configuration::Mixed(
+        ClientConfiguration {
+            ssid: wifi_ssid.into(),
+            password: wifi_password.into(),
+            channel,
+            ..Default::default()
+        },
+        AccessPointConfiguration {
+            ssid: "aptest".into(),
+            channel: channel.unwrap_or(1),
+            ..Default::default()
+        },
+    ))?;
+
+    wifi.start()?;
+
+    info!("Starting wifi...");
+
+    if !WifiWait::new(&sysloop)?
+        .wait_with_timeout(Duration::from_secs(20), || wifi.is_started().unwrap())
+    {
+        bail!("Wifi did not start");
     }
+
+    info!("Connecting wifi...");
+
+    wifi.connect()?;
+
+    if !EspNetifWait::new::<EspNetif>(wifi.sta_netif(), &sysloop)?.wait_with_timeout(
+        Duration::from_secs(20),
+        || {
+            wifi.is_connected().unwrap()
+                && wifi.sta_netif().get_ip_info().unwrap().ip != Ipv4Addr::new(0, 0, 0, 0)
+        },
+    ) {
+        bail!("Wifi did not connect or did not receive a DHCP lease");
+    }
+
+    let ip_info = wifi.sta_netif().get_ip_info()?;
+
+    info!("Wifi DHCP info: {:?}", ip_info);
+
+    // ping(ip_info.subnet.gateway)?;
 
     Ok(wifi)
 }

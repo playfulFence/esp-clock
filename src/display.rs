@@ -74,7 +74,7 @@ use rustzx_core::zx::video::colors::ZXColor;
 
 use ssd1306::mode::DisplayConfig;
 use st7789;
- use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::v2::OutputPin;
 
 macro_rules! create {
     ($peripherals:expr) => {{
@@ -509,31 +509,35 @@ pub(crate) fn esp32s3_create_display_ili9341(
 }
 
 #[cfg(any(feature = "esp32c3_ili9341", feature = "esp32c3_rust_board_ili9341"))]
-pub(crate) fn esp32c3_create_display_ili9341(
-    backlight: gpio::Gpio0<gpio::Unknown>,
-    dc: gpio::Gpio21<gpio::Unknown>,  
-    rst: gpio::Gpio3<gpio::Unknown>, 
+pub(crate) fn esp32c3_create_display_ili9341<'d>(
+    backlight: gpio::Gpio0,
+    dc: gpio::Gpio21,  
+    rst: gpio::Gpio3, 
     spi: spi::SPI2,
-    sclk: gpio::Gpio6<gpio::Unknown>, 
-    sdo: gpio::Gpio7<gpio::Unknown>,  
-    cs: gpio::Gpio20<gpio::Unknown>, 
+    sclk: gpio::Gpio6, 
+    sdo: gpio::Gpio7,  
+    cs: gpio::Gpio20, 
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI2,
-                gpio::Gpio6<gpio::Output>,
-                gpio::Gpio7<gpio::Output>,
-                gpio::Gpio0<gpio::Input>,
-                gpio::Gpio20<gpio::Unknown>,
-            >,
-            gpio::Gpio21<gpio::Output>,
+            spi::SpiDeviceDriver<'d, 
+                spi::SpiDriver<'d>
+            >, 
+            gpio::PinDriver<'d,
+                gpio::Gpio21, 
+                gpio::Output
+            >
         >,
-        gpio::Gpio3<gpio::Output>,  
+        gpio::PinDriver<'d,
+                gpio::Gpio3, 
+                gpio::Output
+            >,  
     >,
     /* Use this if you want to execute Wokwi simulation */
     // 
 > {
+    use esp_idf_hal::{spi::SpiDeviceDriver, gpio::OutputPin};
+
     // Kaluga needs customized screen orientation commands
     // (not a surprise; quite a few ILI9341 boards need these as evidences in the TFT_eSPI & lvgl ESP32 C drivers)
     // Display orientation: https://cdn-shop.adafruit.com/datasheets/ILI9341.pdf
@@ -564,29 +568,26 @@ pub(crate) fn esp32c3_create_display_ili9341(
     }
 
     info!("About to initialize the ESP32C3 ILI9341 SPI LED driver");
-
-    let config = <spi::config::Config as Default>::default()
-        .baudrate(40.MHz().into());
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
-    let mut backlight = backlight.into_output()?;
+    let mut backlight = gpio::PinDriver::output(backlight)?;
     backlight.set_low()?;
+    
 
     let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI2, _, _, _, _>::new(
+        spi::SpiDeviceDriver::new_single(
             spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio0<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
+            sclk,
+            sdo,
+            Option::<gpio::AnyIOPin>::None,
+            spi::Dma::Disabled,
+            Some(cs),
+            &spi::SpiConfig::new().baudrate(40.MHz().into()),
         )?,
-        dc.into_output()?,
+        gpio::PinDriver::output(dc)?,
     );
 
-    let reset = rst.into_output()?;
+    let reset = gpio::PinDriver::output(rst)?;
 
     ili9341::Ili9341::new(
         di,
