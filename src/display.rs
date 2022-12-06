@@ -255,26 +255,28 @@ pub(crate) fn ttgo_create_display(
 
 #[cfg(feature = "esp32_ili9341")]
 pub(crate) fn esp32_create_display_ili9341(
-    backlight: gpio::Gpio4<gpio::Unknown>,
-    dc: gpio::Gpio3<gpio::Unknown>,
-    rst: gpio::Gpio10<gpio::Unknown>,
+    backlight: gpio::Gpio4,
+    dc: gpio::Gpio3,
+    rst: gpio::Gpio10,
     spi: spi::SPI2,
-    sclk: gpio::Gpio6<gpio::Unknown>,
-    sdo: gpio::Gpio7<gpio::Unknown>,
-    cs: gpio::Gpio2<gpio::Unknown>,
+    sclk: gpio::Gpio6,
+    sdo: gpio::Gpio7,
+    cs: gpio::Gpio2,
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI2,
-                gpio::Gpio6<gpio::Output>,
-                gpio::Gpio7<gpio::Output>,
-                gpio::Gpio8<gpio::Input>,
-                gpio::Gpio2<gpio::Unknown>,
-            >,
-            gpio::Gpio3<gpio::Output>,
+            spi::SpiDeviceDriver<'d, 
+                spi::SpiDriver<'d>
+            >, 
+            gpio::PinDriver<'d,
+                gpio::Gpio3, 
+                gpio::Output
+            >
         >,
-        gpio::Gpio10<gpio::Output>,
+        gpio::PinDriver<'d,
+                gpio::Gpio10, 
+                gpio::Output
+            >,  
     >,
 > {
     // Kaluga needs customized screen orientation commands
@@ -310,53 +312,58 @@ pub(crate) fn esp32_create_display_ili9341(
     let mut backlight = backlight.into_output()?;
     backlight.set_low()?;
 
+    let mut backlight = pin::PinDriver::output(backlight);
+    backlight.set_low()?;
+
     let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI2, _, _, _, _>::new(
+        spi::SpiDeviceDriver::new_single(
             spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio8<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
+            sclk,
+            sdo,
+            Option::<gpio::AnyIOPin>::None,
+            spi::Dma::Disabled,
+            Some(cs),
+            &spi::SpiConfig::new().baudrate(40.MHz().into()),
         )?,
-        dc.into_output()?,
+        gpio::PinDriver::output(dc)?,
     );
 
-    let reset = rst.into_output()?;
+    let reset = gpio::PinDriver::output(rst)?;
 
     ili9341::Ili9341::new(
         di,
         reset,
         &mut delay::Ets,
         KalugaOrientation::Landscape,
+        // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
         ili9341::DisplaySize240x320,
-    ).map_err(|e| anyhow!("Failed to init display"))
+    ).map_err(|e| anyhow!("Failed to init display"))Трчн
 }
 
 #[cfg(feature = "esp32s2_ili9341")]
 pub(crate) fn esp32s2_create_display_ili9341(
-    backlight: gpio::Gpio20<gpio::Unknown>,
-    dc: gpio::Gpio1<gpio::Unknown>, // 
-    rst: gpio::Gpio0<gpio::Unknown>, //
+    backlight: gpio::Gpio20,
+    dc: gpio::Gpio1, // 
+    rst: gpio::Gpio0, //
     spi: spi::SPI2,
-    sclk: gpio::Gpio8<gpio::Unknown>, //
-    sdo: gpio::Gpio21<gpio::Unknown>,  //
-    cs: gpio::Gpio9<gpio::Unknown>, // -> 20
+    sclk: gpio::Gpio8, //
+    sdo: gpio::Gpio21,  //
+    cs: gpio::Gpio9, // -> 20
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI2,
-                gpio::Gpio8<gpio::Output>,
-                gpio::Gpio21<gpio::Output>,
-                gpio::Gpio4<gpio::Input>,
-                gpio::Gpio9<gpio::Unknown>,
+            spi::SpiDeviceDriver<'d, 
+                spi::SpiDriver<'d>
             >,
-            gpio::Gpio1<gpio::Output>,
+            gpio::PinDriver<'d,
+                gpio::Gpio1, 
+                gpio::Output
+            >,
         >,
-        gpio::Gpio0<gpio::Output>,
+            gpio::PinDriver<'d,
+                gpio::Gpio0, 
+                gpio::Output
+            >,
     >,
 > {
     // Kaluga needs customized screen orientation commands
@@ -393,30 +400,30 @@ pub(crate) fn esp32s2_create_display_ili9341(
         .baudrate(40.MHz().into());
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
-    let mut backlight = backlight.into_output()?;
+    let mut backlight = pin::PinDriver::output(backlight);
     backlight.set_low()?;
 
     let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI2, _, _, _, _>::new(
+        spi::SpiDeviceDriver::new_single(
             spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio4<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
+            sclk,
+            sdo,
+            Option::<gpio::AnyIOPin>::None,
+            spi::Dma::Disabled,
+            Some(cs),
+            &spi::SpiConfig::new().baudrate(40.MHz().into()),
         )?,
-        dc.into_output()?,
+        gpio::PinDriver::output(dc)?,
     );
 
-    let reset = rst.into_output()?;
+    let reset = gpio::PinDriver::output(rst)?;
 
     ili9341::Ili9341::new(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::Landscape, // fixed : earlier was LandscapeVerticallyFlipped
+        KalugaOrientation::Landscape,
+        // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }
@@ -425,25 +432,27 @@ pub(crate) fn esp32s2_create_display_ili9341(
 #[cfg(feature = "esp32s3_ili9341")]  // TODO
 pub(crate) fn esp32s3_create_display_ili9341(
     backlight: gpio::Gpio7<gpio::Unknown>,
-    dc: gpio::Gpio35<gpio::Unknown>, // 
-    rst: gpio::Gpio4<gpio::Unknown>, //
+    dc: gpio::Gpio35, // 
+    rst: gpio::Gpio4, //
     spi: spi::SPI2,
-    sclk: gpio::Gpio5<gpio::Unknown>, //
-    sdo: gpio::Gpio6<gpio::Unknown>,  //
-    cs: gpio::Gpio0<gpio::Unknown>, // -> 20
+    sclk: gpio::Gpio5, //
+    sdo: gpio::Gpio6,  //
+    cs: gpio::Gpio0, // -> 20
 ) -> Result<
     ili9341::Ili9341<
         SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI2,
-                gpio::Gpio5<gpio::Output>,
-                gpio::Gpio6<gpio::Output>,
-                gpio::Gpio8<gpio::Input>,
-                gpio::Gpio0<gpio::Unknown>,
-            >,
-            gpio::Gpio35<gpio::Output>,
+            spi::SpiDeviceDriver<'d, 
+            spi::SpiDriver<'d>
+                >, 
+            gpio::PinDriver<'d,
+                gpio::Gpio35, 
+                gpio::Output
+            >
         >,
-        gpio::Gpio4<gpio::Output>,
+        gpio::PinDriver<'d,
+                gpio::Gpio4, 
+                gpio::Output
+        >,  
     >,
 > {
     // Kaluga needs customized screen orientation commands
@@ -480,30 +489,30 @@ pub(crate) fn esp32s3_create_display_ili9341(
         .baudrate(40.MHz().into());
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
-    let mut backlight = backlight.into_output()?;
+    let mut backlight = pin::PinDriver::output(backlight);
     backlight.set_low()?;
 
     let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI2, _, _, _, _>::new(
+        spi::SpiDeviceDriver::new_single(
             spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio8<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
+            sclk,
+            sdo,
+            Option::<gpio::AnyIOPin>::None,
+            spi::Dma::Disabled,
+            Some(cs),
+            &spi::SpiConfig::new().baudrate(40.MHz().into()),
         )?,
-        dc.into_output()?,
+        gpio::PinDriver::output(dc)?,
     );
 
-    let reset = rst.into_output()?;
+    let reset = gpio::PinDriver::output(rst)?;
 
     ili9341::Ili9341::new(
         di,
         reset,
         &mut delay::Ets,
-        KalugaOrientation::Landscape, // fixed : earlier was LandscapeVerticallyFlipped
+        KalugaOrientation::Landscape,
+        // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
         ili9341::DisplaySize240x320,
     ).map_err(|e| anyhow!("Failed to init display"))
 }
@@ -531,7 +540,7 @@ pub(crate) fn esp32c3_create_display_ili9341<'d>(
         gpio::PinDriver<'d,
                 gpio::Gpio3, 
                 gpio::Output
-            >,  
+        >,  
     >,
     /* Use this if you want to execute Wokwi simulation */
     // 
@@ -602,27 +611,29 @@ pub(crate) fn esp32c3_create_display_ili9341<'d>(
 
 #[cfg(feature = "kaluga_ili9341")]
 pub(crate) fn kaluga_create_display_ili9341(
-    backlight: gpio::Gpio6<gpio::Unknown>,
-    dc: gpio::Gpio13<gpio::Unknown>,
-    rst: gpio::Gpio16<gpio::Unknown>,
+    backlight: gpio::Gpio6,
+    dc: gpio::Gpio13,
+    rst: gpio::Gpio16,
     spi: spi::SPI3,
-    sclk: gpio::Gpio15<gpio::Unknown>,
-    sdo: gpio::Gpio9<gpio::Unknown>,
-    cs: gpio::Gpio11<gpio::Unknown>,
+    sclk: gpio::Gpio15,
+    sdo: gpio::Gpio9,
+    cs: gpio::Gpio11,
 ) -> Result<
-    ili9341::Ili9341<
-        SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI3,
-                gpio::Gpio15<gpio::Output>,
-                gpio::Gpio9<gpio::Output>,
-                gpio::Gpio8<gpio::Input>,
-                gpio::Gpio11<gpio::Unknown>,
+        ili9341::Ili9341<
+            SPIInterfaceNoCS<
+                spi::SpiDeviceDriver<'d, 
+                    spi::SpiDriver<'d>
+                >, 
+                gpio::PinDriver<'d,
+                    gpio::Gpio21, 
+                    gpio::Output
+                >
             >,
-            gpio::Gpio13<gpio::Output>,
+            gpio::PinDriver<'d,
+                    gpio::Gpio3, 
+                    gpio::Output
+            >,  
         >,
-        gpio::Gpio16<gpio::Output>,
-    >,
 > {
     // Kaluga needs customized screen orientation commands
     // (not a surprise; quite a few ILI9341 boards need these as evidences in the TFT_eSPI & lvgl ESP32 C drivers)
@@ -654,56 +665,59 @@ pub(crate) fn kaluga_create_display_ili9341(
         .baudrate(40.MHz().into());
         //.bit_order(spi::config::BitOrder::MSBFirst);
 
-    let mut backlight = backlight.into_output()?;
-    backlight.set_high()?;
-
-    let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI3, _, _, _, _>::new(
-            spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio8<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
-        )?,
-        dc.into_output()?,
-    );
-
-    let reset = rst.into_output()?;
-
-    ili9341::Ili9341::new(
-        di,
-        reset,
-        &mut delay::Ets,
-        KalugaOrientation::Landscape, 
-        ili9341::DisplaySize240x320,
-    ).map_err(|e| anyhow!("Failed to init display"))
+        let mut backlight = gpio::PinDriver::output(backlight)?;
+        backlight.set_low()?;
+        
+    
+        let di = SPIInterfaceNoCS::new(
+            spi::SpiDeviceDriver::new_single(
+                spi,
+                sclk,
+                sdo,
+                Option::<gpio::AnyIOPin>::None,
+                spi::Dma::Disabled,
+                Some(cs),
+                &spi::SpiConfig::new().baudrate(40.MHz().into()),
+            )?,
+            gpio::PinDriver::output(dc)?,
+        );
+    
+        let reset = gpio::PinDriver::output(rst)?;
+    
+        ili9341::Ili9341::new(
+            di,
+            reset,
+            &mut delay::Ets,
+            KalugaOrientation::Landscape,
+            // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
+            ili9341::DisplaySize240x320,
+        ).map_err(|e| anyhow!("Failed to init display"))
 }
 
 #[cfg(feature = "kaluga_st7789")]
 pub(crate) fn kaluga_create_display_st7789(
-    backlight: gpio::Gpio6<gpio::Unknown>,
-    dc: gpio::Gpio13<gpio::Unknown>,
-    rst: gpio::Gpio16<gpio::Unknown>,
+    backlight: gpio::Gpio6,
+    dc: gpio::Gpio13,
+    rst: gpio::Gpio16,
     spi: spi::SPI3,
-    sclk: gpio::Gpio15<gpio::Unknown>,
-    sdo: gpio::Gpio9<gpio::Unknown>,
-    cs: gpio::Gpio11<gpio::Unknown>,
+    sclk: gpio::Gpio15,
+    sdo: gpio::Gpio9,
+    cs: gpio::Gpio11,
 ) -> Result<
     st7789::ST7789<
         SPIInterfaceNoCS<
-            spi::Master<
-                spi::SPI3,
-                gpio::Gpio15<gpio::Output>,
-                gpio::Gpio9<gpio::Output>,
-                gpio::Gpio8<gpio::Input>,
-                gpio::Gpio11<gpio::Unknown>,
-            >,
-            gpio::Gpio13<gpio::Output>,
+            spi::SpiDeviceDriver<'d, 
+                spi::SpiDriver<'d>
+            >, 
+            gpio::PinDriver<'d,
+                gpio::Gpio13, 
+                gpio::Output
+            >
         >,
-        gpio::Gpio16<gpio::Output>,
+        gpio::PinDriver<'d,
+                gpio::Gpio16, 
+                gpio::Output
+        >,  
     >,
 > {
     info!("About to initialize the Kaluga ST7789 SPI LED driver");
@@ -712,24 +726,23 @@ pub(crate) fn kaluga_create_display_st7789(
         .baudrate(80.MHz().into())
         .bit_order(spi::config::BitOrder::MSBFirst);
 
-    let mut backlight = backlight.into_output()?;
+    let mut backlight = gpio::PinDriver::output(backlight)?;
     backlight.set_high()?;
 
     let di = SPIInterfaceNoCS::new(
-        spi::Master::<spi::SPI3, _, _, _, _>::new(
+        spi::SpiDeviceDriver::new_single(
             spi,
-            spi::Pins {
-                sclk: sclk.into_output()?,
-                sdo: sdo.into_output()?,
-                sdi: Option::<gpio::Gpio8<gpio::Input>>::None,
-                cs: Some(cs),
-            },
-            config,
+            sclk,
+            sdo,
+            Option::<gpio::AnyIOPin>::None,
+            spi::Dma::Disabled,
+            Some(cs),
+            &spi::SpiConfig::new().baudrate(40.MHz().into()),
         )?,
-        dc.into_output()?,
+        gpio::PinDriver::output(dc)?,
     );
 
-    let reset = rst.into_output()?;
+    let reset = gpio::PinDriver::output(rst)?;
 
     let mut display = st7789::ST7789::new(di, reset, 320, 240);
 
