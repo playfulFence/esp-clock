@@ -1,6 +1,6 @@
 [esp-clock]
 mqtt_user = "esp-clock"
 broker_url = "mqtt://broker.hivemq.com:1883"
-wifi_ssid = "EspressifSystems"
-wifi_pass = "Espressif32"
+wifi_ssid = "REPLACE_ME_SSID"
+wifi_pass = "REPLACE_ME_PASS"
 topic_name = "default_topic_name" 

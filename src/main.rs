@@ -163,7 +163,7 @@ fn main() -> Result<()>
         
             info!("About to initialize WiFi (SSID: {}, PASS: {})", app_config.wifi_ssid, app_config.wifi_pass);
 
-            let mut wifi = wifi(peripherals.modem, sysloop.clone(), app_config.wifi_ssid, app_config.wifi_pass);
+            let mut wifi = wifi(peripherals.modem, sysloop.clone(), app_config.wifi_ssid, app_config.wifi_pass)?;
 
             wifi_connecting(&mut dp, true, display::color_conv);
 
@@ -242,8 +242,8 @@ fn main() -> Result<()>
                 let sda = peripherals.pins.gpio10;
                 let scl = peripherals.pins.gpio8;
 
-                let config = <i2c::config::MasterConfig as Default>::default().baudrate(100.kHz().into());
-                let mut i2c = i2c::Master::<i2c::I2C0, _, _>::new(i2c, i2c::MasterPins { sda, scl }, config)?;
+                let config = <i2c::config::Config>::default().baudrate(100.kHz().into());
+                let i2c = i2c::I2cDriver::new(i2c, sda, scl, &config)?;
             
                 let bus = BusManagerSimple::new(i2c);
                 // let mut icm = Icm42670::new(bus.acquire_i2c(), Address::Primary).unwrap(); // TBD
@@ -665,8 +665,6 @@ fn wifi(
     wifi_password : &str, 
 ) -> Result<Box<EspWifi<'static>>> {
     use std::net::Ipv4Addr;
-
-    use esp_idf_svc::handle::RawHandle;
 
     let mut wifi = Box::new(EspWifi::new(modem, sysloop.clone(), None)?);
 
