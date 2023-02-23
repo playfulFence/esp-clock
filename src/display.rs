@@ -337,7 +337,7 @@ pub(crate) fn esp32_create_display_ili9341(
         KalugaOrientation::Landscape,
         // KalugaOrientation::LandscapeFlipped // uncomment this line and comment the line above for correct Wokwi simulation
         ili9341::DisplaySize240x320,
-    ).map_err(|e| anyhow!("Failed to init display"))Трчн
+    ).map_err(|e| anyhow!("Failed to init display"))
 }
 
 #[cfg(feature = "esp32s2_ili9341")]
@@ -542,8 +542,6 @@ pub(crate) fn esp32c3_create_display_ili9341<'d>(
                 gpio::Output
         >,  
     >,
-    /* Use this if you want to execute Wokwi simulation */
-    // 
 > {
     use esp_idf_hal::{spi::SpiDeviceDriver, gpio::OutputPin};
 
